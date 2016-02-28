@@ -8,7 +8,7 @@
   "license": "ISC",
   "moduleType": [],
   "homepage": "",
-	"dependencies": {
+  "dependencies": {
     "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
     "iron-icon": "PolymerElements/iron-icon#^1.0.0",
     "iron-icons": "PolymerElements/iron-icons#^1.0.0",
@@ -20,7 +20,8 @@
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.0",
     "iron-signals": "PolymerElements/iron-signals#^1.0.0",
     "paper-spinner": "PolymerElements/paper-spinner#^1.0.0",
-    "juicy-html": "x-html#~1.0.2"
+    "juicy-html": "x-html#~1.0.2",
+    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#~1.0.6"
   },
   "ignore": [
     "**/.*",
