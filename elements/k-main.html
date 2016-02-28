@@ -1,0 +1,53 @@
+<link rel="import" href="../node_modules/polymer/polymer.html">
+
+<dom-module id="k-main">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host * {
+        font-family: "Roboto", san-serif;
+      }
+
+      paper-card {
+        width: 70%;
+        margin: 0 15%;
+      }
+    </style>
+
+    <div class="layout horizontal">
+      <template is="dom-repeat" items="[[posts]]">
+        <paper-card
+          heading="[[item.title]]"
+        >
+          <div class="card-content">[[item.short_content]]</div>
+          <div class="card-actions">
+            <paper-button>
+              <iron-icon icon="icons:create"></iron-icon>
+              EDIT
+            </paper-button>
+          </div>
+        </paper-card>
+      </template>
+    </div>
+  </template>
+
+  <script>
+   Polymer({
+     is: 'k-main',
+     properties: {
+       posts: {
+         type: Object,
+         value: [
+           {
+             title: "First post",
+             short_content: "test test test"
+           },
+         ]
+       }
+     }
+   });
+  </script>
+</dom-module>
