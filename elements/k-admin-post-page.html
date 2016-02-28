@@ -4,8 +4,14 @@
 
 <dom-module id="k-admin-post-page">
   <template>
-    <style></style>
-    <paper-drawer-panel>
+    <style>
+      paper-drawer-panel {
+        --paper-drawer-panel-left-drawer-container: {
+          background-color: #ddd;
+        };
+      }
+    </style>
+    <paper-drawer-panel drawer-width="100px">
       <div drawer>
         drawer panel
       </div>
