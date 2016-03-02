@@ -11,26 +11,10 @@
         font-family: "Roboto", san-serif;
       }
 
-      paper-card {
-        width: 70%;
-        margin: 0 15%;
-      }
     </style>
 
     <div class="layout horizontal">
-      <template is="dom-repeat" items="[[posts]]">
-        <paper-card
-          heading="[[item.title]]"
-        >
-          <div class="card-content">[[item.short_content]]</div>
-          <div class="card-actions">
-            <paper-button>
-              <iron-icon icon="icons:create"></iron-icon>
-              EDIT
-            </paper-button>
-          </div>
-        </paper-card>
-      </template>
+      <k-post-list posts="[[posts]]"></k-post-list>
     </div>
   </template>
 
