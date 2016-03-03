@@ -1,0 +1,28 @@
+<link rel="import" href="../node_modules/polymer/polymer.html">
+
+<dom-module id="data-sample">
+  <template>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'data-sample',
+      properties: {
+        data: {
+          type: Object,
+          value: [
+            {
+              header_url: "http://thecatapi.com/api/images/get?format=src&type=gif",
+              title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel urna odio. Vivamus condimentum odio erat, et malesuada felis ultricies eget.",
+              content: "Praesent lacinia nisl quis massa finibus interdum. Aliquam feugiat pretium massa, ac luctus neque dapibus quis. Vivamus vehicula tristique sem maximus volutpat. Curabitur sagittis, mauris quis mollis ullamcorper, lectus sem maximus sem, et efficitur sapien lectus non dolor. Aliquam vitae pharetra nisl. Nullam lacinia tincidunt libero vitae varius. In efficitur ultrices imperdiet. In eget porta felis, nec congue odio. Duis non aliquet ligula. <b>Integer vel ultrices urna</b>. Pellentesque accumsan dui lectus, eget malesuada justo fermentum ac. Quisque suscipit, tellus ac tristique pellentesque, neque neque tempor turpis, et ultricies tellus ex fringilla metus. Morbi eu augue faucibus, porta ligula vitae, tristique nunc. Sed vulputate suscipit lorem, ac feugiat metus fermentum tincidunt. Nullam tortor elit, egestas a nisl mollis, mollis pulvinar erat. Fusce eget odio malesuada, placerat arcu eget, hendrerit justo. Sed sed nunc mauris. Sed quis sodales augue. Nullam eu elit nec libero aliquam condimentum."
+            }
+          ]
+        },
+        data_set: {
+          type: Object,
+          value: [data, data, data, data]
+        }
+      }
+    });
+  </script>
+</dom-module>
