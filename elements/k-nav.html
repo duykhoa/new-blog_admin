@@ -1,11 +1,26 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 
 <dom-module id="k-nav">
   <template>
-    <style></style>
-    <nav user="[[user]]">
+    <style>
+      .layout {
+        height: 80px;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+        background: white;
+      }
 
-    </nav>
+      .welcome-text {
+        line-height: 80px;
+        margin-right: 10px;
+      }
+    </style>
+		<div class="layout horizontal end-justified">
+      <div class="welcome-text">
+        <span>Welcome,&nbsp;</span>
+        <span>[[user.username]]</span>
+      </div>
+		</div>
   </template>
 
   <script>
@@ -13,7 +28,7 @@
       is: 'k-nav',
       properties: {
         user: {
-          type: Object,
+          type: Object
         }
       }
     });
