@@ -3,11 +3,6 @@
 <dom-module id="k-sidebar">
   <template>
     <style>
-      :host * {
-        font-family: "Roboto", san-serif;
-        font-size: 15px;
-      }
-
       li {
         text-align: center;
       }
@@ -64,6 +59,9 @@
   <script>
    Polymer({
       is: 'k-sidebar',
+      properties: {
+        menuItems: Array <!-- icons, url, displayText -->
+      }
     });
   </script>
 </dom-module>

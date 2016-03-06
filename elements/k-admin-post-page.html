@@ -9,7 +9,6 @@
 
 <link rel="import" href="../elements/k-nav.html">
 <link rel="import" href="../elements/k-sidebar.html">
-<link rel="import" href="../elements/k-main.html">
 <link rel="import" href="../elements/k-post-list.html">
 
 <dom-module id="k-admin-post-page">
@@ -21,13 +20,13 @@
         };
       }
     </style>
+    <k-nav user="[[user]]"></k-nav>
     <paper-drawer-panel drawer-width="150px">
       <div drawer>
         <k-sidebar></k-sidebar>
       </div>
 
       <div main>
-        <k-main></k-main>
       </div>
     </paper-drawer-panel>
   </template>
@@ -37,6 +36,12 @@
       is: 'k-admin-post-page',
       properties: {
         postsUrl: String,
+        user: {
+          type: String,
+          value: {
+            username: "Kevin Tran"
+          }
+        }
       }
     });
   </script>
