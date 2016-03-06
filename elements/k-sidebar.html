@@ -43,16 +43,17 @@
     </style>
 
     <ul>
-      <li active>
-        <a href="">
-          <iron-icon
-            icon="icons:description"
-          ></iron-icon>
+      <template is="dom-repeat" items="[[menuItems]]">
+        <li active>
+          <a href$="[[item.url]]">
+            <iron-icon
+              icon="[[item.icon]]"
+            ></iron-icon>
 
-          <span>Posts</span>
-        </a>
-      </li>
-      <li></li>
+            <span>[[item.displayText]]</span>
+          </a>
+        </li>
+      </template>
     </ul>
   </template>
 
