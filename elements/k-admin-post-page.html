@@ -23,7 +23,9 @@
     <k-nav user="[[user]]"></k-nav>
     <paper-drawer-panel drawer-width="150px">
       <div drawer>
-        <k-sidebar></k-sidebar>
+        <k-sidebar
+          menu-items="[[menuItems]]"
+        ></k-sidebar>
       </div>
 
       <div main>
@@ -41,6 +43,21 @@
           value: {
             username: "Kevin Tran"
           }
+        },
+        menuItems: {
+          type: Array,
+          value: [
+            {
+              displayText: "Post",
+              url: "#posts",
+              icon: "icons:description"
+            },
+            {
+              displayText: "Account",
+              url: "#account",
+              icon: "icons:account-circle"
+            }
+          ]
         }
       }
     });
