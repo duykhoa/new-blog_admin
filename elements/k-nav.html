@@ -3,11 +3,19 @@
 <dom-module id="k-nav">
   <template>
     <style></style>
+    <nav user="[[user]]">
+
+    </nav>
   </template>
 
   <script>
    Polymer({
       is: 'k-nav',
+      properties: {
+        user: {
+          type: Object,
+        }
+      }
     });
   </script>
 </dom-module>
