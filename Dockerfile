@@ -3,6 +3,6 @@ MAINTAINER duykhoa12t@gmail.com
 
 RUN mkdir /app
 WORKDIR /app
-ADD . /app
+VOLUME . /app
 
 ENTRYPOINT /app/bin/server
