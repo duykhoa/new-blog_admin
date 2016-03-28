@@ -1,0 +1,22 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="k-title">
+  <template>
+    <style>
+    </style>
+    <paper-input value="{{title}}" label="Title"></paper-input>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-title',
+      properties: {
+        title: {
+          type: String,
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>
