@@ -1,5 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements/k-title.html">
+<link rel="import" href="../elements/k-short-content.html">
+<link rel="import" href="../elements/k-editor.html">
 
 <dom-module id="k-new-post">
   <template>
@@ -7,6 +9,13 @@
     </style>
 
     <k-title title="{{titleValue}}"></k-title>
+    <k-short-content short-content="{{shortContentValue}}"></k-short-content>
+    <k-editor content="{{contentValue}}"></k-editor>
+
+    <h3>Preview</h3>
+    <h4>[[titleValue]]</h4>
+    <p>[[shortContentValue]]</p>
+    <p>[[contentValue]]</p>
   </template>
 
   <script>

@@ -1,0 +1,22 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+
+<dom-module id="k-short-content">
+  <template>
+    <style>
+    </style>
+
+    <paper-textarea value="{{shortContent}}"></paper-textarea>
+  </template>
+  <script>
+   Polymer({
+      is: 'k-short-content',
+      properties: {
+        shortContent: {
+          type: String,
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>
