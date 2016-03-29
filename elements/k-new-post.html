@@ -12,7 +12,7 @@
     <k-title title="{{titleValue}}"></k-title>
     <k-short-content short-content="{{shortContentValue}}"></k-short-content>
     <k-editor content="{{contentValue}}"></k-editor>
-    <k-category category-value="{{contentValue}}"></k-category>
+    <k-category category-value="{{contentValue}}" categories="[[categoryList]]"></k-category>
   </template>
 
   <script>
@@ -35,6 +35,10 @@
           type: String,
           notify: true
         },
+        categoryList: {
+          type: Object,
+          value: [ "Category 1", "Category 2", "Category 3" ]
+        }
       }
     });
   </script>

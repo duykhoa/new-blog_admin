@@ -10,10 +10,9 @@
 
     <paper-dropdown-menu label="Your favourite pastry" value="{{category}}">
       <paper-menu class="dropdown-content">
-        <paper-item>Croissant</paper-item>
-        <paper-item>Donut</paper-item>
-        <paper-item>Financier</paper-item>
-        <paper-item>Madeleine</paper-item>
+        <template is="dom-repeat" items="{{categories}}">
+          <paper-item>[[item]]</paper-item>
+        </template>
       </paper-menu>
     </paper-dropdown-menu>
   </template>
@@ -24,6 +23,9 @@
         category: {
           type: String,
           notify: true
+        },
+        categories: {
+          type: Object
         }
       }
     });
