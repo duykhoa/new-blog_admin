@@ -12,17 +12,30 @@
     <k-title title="{{titleValue}}"></k-title>
     <k-short-content short-content="{{shortContentValue}}"></k-short-content>
     <k-editor content="{{contentValue}}"></k-editor>
-    <k-category content="{{contentValue}}"></k-category>
-
-    <h3>Preview</h3>
-    <h4>[[titleValue]]</h4>
-    <p>[[shortContentValue]]</p>
-    <p>[[contentValue]]</p>
+    <k-category category-value="{{contentValue}}"></k-category>
   </template>
 
   <script>
    Polymer({
-      is: 'k-new-post'
+      is: 'k-new-post',
+      properties: {
+        titleValue: {
+          type: String,
+          notify: true
+        },
+        shortContentValue: {
+          type: String,
+          notify: true
+        },
+        contentValue: {
+          type: String,
+          notify: true
+        },
+        categoryValue: {
+          type: String,
+          notify: true
+        },
+      }
     });
   </script>
 </dom-module>
