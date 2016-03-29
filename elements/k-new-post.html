@@ -3,6 +3,7 @@
 <link rel="import" href="../elements/k-short-content.html">
 <link rel="import" href="../elements/k-editor.html">
 <link rel="import" href="../elements/k-category.html">
+<link rel="import" href="../elements/k-publishing.html">
 
 <dom-module id="k-new-post">
   <template>
@@ -12,7 +13,15 @@
     <k-title title="{{titleValue}}"></k-title>
     <k-short-content short-content="{{shortContentValue}}"></k-short-content>
     <k-editor content="{{contentValue}}"></k-editor>
-    <k-category category-value="{{contentValue}}" categories="[[categoryList]]"></k-category>
+    <k-category category-value="{{categoryValue}}" categories="[[categoryList]]"></k-category>
+    <br/>
+
+    <k-publishing
+      title="[[titleValue]]"
+      short-content="[[shortContentValue]]"
+      content="[[contentValue]]"
+      category="[[categoryValue]]"
+    ></k-publishing>
   </template>
 
   <script>
