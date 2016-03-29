@@ -33,7 +33,9 @@
     "paper-progress": "PolymerElements/paper-progress#^1.0.0",
     "paper-toast": "PolymerElements/paper-toast#^1.0.0",
     "paper-tooltip": "PolymerElements/paper-tooltip#^1.0.0",
-    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.6"
+    "paper-icon-button": "PolymerElements/paper-icon-button#~1.0.6",
+    "paper-menu": "PolymerElements/paper-menu#~1.2.2",
+    "paper-item": "PolymerElements/paper-item#~1.1.4"
   },
   "ignore": [
     "**/.*",
