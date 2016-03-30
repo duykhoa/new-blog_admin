@@ -16,7 +16,7 @@
     <iron-ajax
      url="[[postUrl]]"
      content-type="application/json"
-     body="[[computeBody(title, shortContent, content)]]"
+     body="[[computeBody(title, shortContent, content, category)]]"
      method="POST"
     ></iron-ajax>
   </template>
@@ -31,8 +31,8 @@
         category: String,
         postUrl: String,
       },
-      computeBody: function(title, shortContent, content) {
-        return { title: title, shortContent: shortContent, content: content }
+      computeBody: function(title, shortContent, content, category) {
+        return { title: title, shortContent: shortContent, content: content, category: category }
       },
       publish: function(e) {
         this.$$('iron-ajax').generateRequest();
