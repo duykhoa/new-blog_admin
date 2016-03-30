@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/juicy-html/juicy-html.html">
 
 <link rel="import" href="../elements/k-title.html">
 <link rel="import" href="../elements/k-short-content.html">
@@ -35,7 +36,9 @@
         <br/>
       </div>
 
-      <div>Preview</div>
+      <div>
+        <template is="juicy-html" content$="[[contentValue]]"></template>
+      </div>
     </iron-pages>
 
     <k-publishing
