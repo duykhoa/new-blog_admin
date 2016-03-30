@@ -1,0 +1,54 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements/k-title.html">
+<link rel="import" href="../elements/k-short-content.html">
+<link rel="import" href="../elements/k-editor.html">
+<link rel="import" href="../elements/k-category.html">
+<link rel="import" href="../elements/k-publishing.html">
+
+<dom-module id="k-new-post">
+  <template>
+    <style>
+    </style>
+
+    <k-title title="{{titleValue}}"></k-title>
+    <k-short-content short-content="{{shortContentValue}}"></k-short-content>
+    <k-editor content="{{contentValue}}"></k-editor>
+    <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
+    <br/>
+
+    <k-publishing
+      title="[[titleValue]]"
+      short-content="[[shortContentValue]]"
+      content="[[contentValue]]"
+      category="[[categoryValue]]"
+    ></k-publishing>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-new-post',
+      properties: {
+        titleValue: {
+          type: String,
+          notify: true
+        },
+        shortContentValue: {
+          type: String,
+          notify: true
+        },
+        contentValue: {
+          type: String,
+          notify: true
+        },
+        categoryValue: {
+          type: String,
+          notify: true
+        },
+        categoryList: {
+          type: Object,
+          value: [ "Category 1", "Category 2", "Category 3" ]
+        }
+      }
+    });
+  </script>
+</dom-module>

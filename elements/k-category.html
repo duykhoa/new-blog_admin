@@ -1,0 +1,33 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<dom-module id="k-category">
+  <template>
+    <style>
+    </style>
+
+    <paper-dropdown-menu label="Category" value="{{category}}">
+      <paper-menu class="dropdown-content">
+        <template is="dom-repeat" items="{{categories}}">
+          <paper-item>[[item]]</paper-item>
+        </template>
+      </paper-menu>
+    </paper-dropdown-menu>
+  </template>
+  <script>
+   Polymer({
+      is: "k-category",
+      properties: {
+        category: {
+          type: String,
+          notify: true
+        },
+        categories: {
+          type: Object
+        }
+      }
+    });
+  </script>
+</dom-module>
