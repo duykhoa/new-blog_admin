@@ -1,4 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+
 <link rel="import" href="../elements/k-title.html">
 <link rel="import" href="../elements/k-short-content.html">
 <link rel="import" href="../elements/k-editor.html">
@@ -8,13 +11,32 @@
 <dom-module id="k-new-post">
   <template>
     <style>
+      paper-tabs {
+        background: #3498db;
+        color: #fff;
+      }
+
+      paper-tabs.iron-selected {
+        font-weight: 500;
+      }
     </style>
 
-    <k-title title="{{titleValue}}"></k-title>
-    <k-short-content short-content="{{shortContentValue}}"></k-short-content>
-    <k-editor content="{{contentValue}}"></k-editor>
-    <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
-    <br/>
+    <paper-tabs selected="{{selected}}">
+      <paper-tab>Edit</paper-tab>
+      <paper-tab>Preview</paper-tab>
+    </paper-tabs>
+
+    <iron-pages selected="{{selected}}">
+      <div>
+        <k-title title="{{titleValue}}"></k-title>
+        <k-short-content short-content="{{shortContentValue}}"></k-short-content>
+        <k-editor content="{{contentValue}}"></k-editor>
+        <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
+        <br/>
+      </div>
+
+      <div>Preview</div>
+    </iron-pages>
 
     <k-publishing
       title="[[titleValue]]"
@@ -49,7 +71,11 @@
           type: Object,
           value: [ "Category 1", "Category 2", "Category 3" ]
         },
-       postUrl: String
+       postUrl: String,
+       selected: {
+         type: Number,
+         value: 0
+       }
       }
     });
   </script>
