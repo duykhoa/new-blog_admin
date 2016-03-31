@@ -8,6 +8,7 @@
 <link rel="import" href="../elements/k-editor.html">
 <link rel="import" href="../elements/k-category.html">
 <link rel="import" href="../elements/k-publishing.html">
+<link rel="import" href="../elements/k-wysiwyg.html">
 
 <dom-module id="k-new-post">
   <template>
@@ -48,6 +49,8 @@
       category="[[categoryValue]]"
       post-url="[[postUrl]]"
     ></k-publishing>
+
+    <k-wysiwyg></k-wysiwyg>
   </template>
 
   <script>
