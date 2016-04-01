@@ -20,6 +20,11 @@
       paper-tabs.iron-selected {
         font-weight: 500;
       }
+
+      .preview {
+        font-size: 18px;
+        line-height: 1.4em;
+      }
     </style>
 
     <paper-tabs selected="{{selected}}">
@@ -36,7 +41,22 @@
         <br/>
       </div>
 
-      <div>
+      <div class="preview">
+        <div>
+          <b>Title:</b>
+          <span>[[titleValue]]</span>
+        </div>
+
+        <div>
+          <b>Category:</b>
+          <span>[[categoryValue]]</span>
+        </div>
+
+        <div>
+          <b>Short content:</b>
+          <span>[[shortContentValue]]</span>
+        </div>
+
         <template is="juicy-html" content$="[[contentValue]]"></template>
       </div>
     </iron-pages>
