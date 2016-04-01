@@ -28,7 +28,7 @@
       }
     </style>
     <paper-material class="vertical layout">
-      <wysiwyg-e class="flex">
+      <wysiwyg-e value="{{contentValue}}" class="flex">
         <wysiwyg-tool-bold class="wysiwyg-tool"></wysiwyg-tool-bold>
         <wysiwyg-tool-italic class="wysiwyg-tool"></wysiwyg-tool-italic>
         <wysiwyg-tool-underline class="wysiwyg-tool"></wysiwyg-tool-underline>
@@ -50,7 +50,14 @@
   </template>
   <script>
     Polymer({
-      is: 'k-wysiwyg'
+      is: 'k-wysiwyg',
+      properties: {
+        contentValue: {
+          type: String,
+          notify: true,
+          value: ""
+        }
+      }
     });
   </script>
 </dom-module>
