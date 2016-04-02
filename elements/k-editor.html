@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../elements/k-wysiwyg.html">
 
@@ -6,6 +8,15 @@
   <template>
     <style>
     </style>
+
+    <iron-localstorage
+      name="postContentValue"
+      value="{{content}}"
+    ></iron-localstorage>
+
+    <iron-signals
+      on-iron-signal-finishpublishing="clearLocalStorage"
+    ></iron-signals>
 
     <k-wysiwyg content-value="{{content}}"></k-wysiwyg>
   </template>
@@ -16,8 +27,12 @@
       properties: {
         content: {
           type: String,
+          value: '',
           notify: true
         }
+      },
+      clearLocalStorage: function(e) {
+        this.$$('iron-localstorage').value = '';
       }
     });
   </script>
