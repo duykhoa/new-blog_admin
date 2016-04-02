@@ -4,8 +4,8 @@
   <template>
     <style>
       paper-card {
-        width: 70%;
-        margin: 0 15%;
+        width: 100%;
+        margin: 0;
       }
     </style>
 
@@ -13,13 +13,14 @@
       <paper-card
         heading="[[item.title]]"
       >
-        <div class="card-content">[[item.short_content]]</div>
-        <div class="card-actions">
-          <paper-button>
-            <iron-icon icon="icons:create"></iron-icon>
-            EDIT
-          </paper-button>
-        </div>
+        <div class="card-content">[[item.shortContent]]</div>
+        <paper-button>
+          <iron-icon icon="icons:create"></iron-icon>
+        </paper-button>
+
+        <paper-button>
+          <iron-icon icon="icons:delete"></iron-icon>
+        </paper-button>
       </paper-card>
     </template>
   </template>

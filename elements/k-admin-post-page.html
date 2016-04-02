@@ -19,8 +19,11 @@
           background-color: #424242;
         };
       }
+
+      .content {
+        margin-top: 20px;
+      }
     </style>
-    <k-nav user="[[user]]"></k-nav>
     <paper-drawer-panel drawer-width="150px">
       <div drawer>
         <k-sidebar
@@ -29,6 +32,10 @@
       </div>
 
       <div main>
+        <k-nav user="[[user]]"></k-nav>
+        <div class="content">
+          <k-post-list posts="[[posts]]"></k-post-list>
+        </div>
       </div>
     </paper-drawer-panel>
   </template>
@@ -56,6 +63,23 @@
               displayText: "Account",
               url: "#account",
               icon: "icons:account-circle"
+            }
+          ]
+        },
+        posts: {
+          type: Object,
+          value: [
+            {
+              title: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+              shortContent: "Phasellus cursus, nunc in tincidunt mattis, mauris purus hendrerit erat, vestibulum euismod purus lacus at lectus. Nam eu dui commodo, facilisis neque ac, elementum purus",
+            },
+            {
+              title: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+              shortContent: "Phasellus cursus, nunc in tincidunt mattis, mauris purus hendrerit erat, vestibulum euismod purus lacus at lectus. Nam eu dui commodo, facilisis neque ac, elementum purus",
+            },
+            {
+              title: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+              shortContent: "Phasellus cursus, nunc in tincidunt mattis, mauris purus hendrerit erat, vestibulum euismod purus lacus at lectus. Nam eu dui commodo, facilisis neque ac, elementum purus",
             }
           ]
         }
