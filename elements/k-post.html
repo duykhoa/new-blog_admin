@@ -1,0 +1,34 @@
+<link rel="import" href="../node_modules/polymer/polymer.html">
+
+<dom-module id="k-post">
+  <template>
+    <style>
+      paper-card {
+        width: 100%;
+        margin: 0;
+      }
+    </style>
+
+    <paper-card
+      heading="[[post.title]]"
+    >
+      <div class="card-content">[[post.shortContent]]</div>
+      <paper-button>
+        <iron-icon icon="icons:create"></iron-icon>
+      </paper-button>
+
+      <paper-button>
+        <iron-icon icon="icons:delete"></iron-icon>
+      </paper-button>
+    </paper-card>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-post',
+      properties: {
+        post: Object
+      }
+    });
+  </script>
+</dom-module>

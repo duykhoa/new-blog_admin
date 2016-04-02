@@ -3,25 +3,10 @@
 <dom-module id="k-post-list">
   <template>
     <style>
-      paper-card {
-        width: 100%;
-        margin: 0;
-      }
     </style>
 
     <template is="dom-repeat" items="[[posts]]">
-      <paper-card
-        heading="[[item.title]]"
-      >
-        <div class="card-content">[[item.shortContent]]</div>
-        <paper-button>
-          <iron-icon icon="icons:create"></iron-icon>
-        </paper-button>
-
-        <paper-button>
-          <iron-icon icon="icons:delete"></iron-icon>
-        </paper-button>
-      </paper-card>
+      <k-post post="[[item]]"></k-post>
     </template>
   </template>
 
