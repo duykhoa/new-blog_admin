@@ -18,7 +18,7 @@
     "iron-list": "PolymerElements/iron-list#^1.0.0",
     "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.5",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.0",
-    "iron-signals": "PolymerElements/iron-signals#^1.0.0",
+    "iron-signals": "PolymerElements/iron-signals#^1.0.3",
     "paper-spinner": "PolymerElements/paper-spinner#^1.0.0",
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#~1.0.6",
     "paper-badge": "PolymerElements/paper-badge#^1.0.0",
