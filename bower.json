@@ -16,7 +16,7 @@
     "iron-input": "PolymerElements/iron-input#^1.0.0",
     "iron-label": "PolymerElements/iron-label#^1.0.0",
     "iron-list": "PolymerElements/iron-list#^1.0.0",
-    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.0",
+    "iron-localstorage": "PolymerElements/iron-localstorage#^1.0.5",
     "iron-media-query": "PolymerElements/iron-media-query#^1.0.0",
     "iron-signals": "PolymerElements/iron-signals#^1.0.0",
     "paper-spinner": "PolymerElements/paper-spinner#^1.0.0",
