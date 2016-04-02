@@ -1,12 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../elements/k-wysiwyg.html">
 
 <dom-module id="k-editor">
   <template>
     <style>
     </style>
 
-    <paper-textarea value="{{content}}" label="Content"></paper-textarea>
+    <k-wysiwyg content-value="{{content}}"></k-wysiwyg>
   </template>
 
   <script>
