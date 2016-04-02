@@ -39,7 +39,8 @@
     "paper-tabs": "PolymerElements/paper-tabs#~1.4.1",
     "iron-pages": "PolymerElements/iron-pages#~1.0.7",
     "juicy-html": "~1.1.0",
-    "wysiwyg-e": "*"
+    "wysiwyg-e": "*",
+    "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#^1.0.6"
   },
   "ignore": [
     "**/.*",
