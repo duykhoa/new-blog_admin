@@ -8,23 +8,39 @@
         width: 100%;
         margin: 0;
       }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover, a:visited, a:target {
+        color: #000;
+        text-decoration: none;
+      }
     </style>
 
     <paper-card
       heading="[[post.title]]"
     >
       <div class="card-content">[[post.shortContent]]</div>
-      <paper-button on-tap="editAction">
-        <iron-icon icon="icons:create"></iron-icon>
-      </paper-button>
+      <a href="[[post.editUrl]]">
+        <paper-button on-tap="editAction">
+          <iron-icon icon="icons:create"></iron-icon>
+        </paper-button>
+      </a>
 
-      <paper-button on-tap="deleteAction">
-        <iron-icon icon="icons:delete"></iron-icon>
-      </paper-button>
+      <a href="[[post.deleteUrl]]">
+        <paper-button on-tap="deleteAction">
+          <iron-icon icon="icons:delete"></iron-icon>
+        </paper-button>
+      </a>
 
-      <paper-button on-tap="viewAction">
-        <iron-icon icon="icons:visibility"></iron-icon>
-      </paper-button>
+      <a href="[[post.viewUrl]]">
+        <paper-button on-tap="viewAction">
+          <iron-icon icon="icons:visibility"></iron-icon>
+        </paper-button>
+      </a>
     </paper-card>
   </template>
 
@@ -33,29 +49,6 @@
       is: 'k-post',
       properties: {
         post: Object
-      },
-      editAction: function(e) {
-        editEle = document.createElement('k-new-post');
-
-        // ##############################################
-        // TODO: set the attribute for `editEle` element
-        //
-        // Examples:
-        //
-        //     editEle.titleValue = this.post.title;
-        //     editEle.category = this.post.category;
-        //     ....
-        // ##############################################
-
-        // No edit below this line - delete the comments after finish###
-
-        //editEle.contentValue = this.post.contentValue;
-
-        Polymer.dom(this.root).appendChild(editEle);
-      },
-      deleteAction: function(e) {
-      },
-      viewAction: function(e) {
       }
     });
   </script>
