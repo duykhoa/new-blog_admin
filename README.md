@@ -23,7 +23,6 @@ Elements
 - k-nav
 - k-editor
 - k-new-post
-- data-sample
 
 ## Installation
 
