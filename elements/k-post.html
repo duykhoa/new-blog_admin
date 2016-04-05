@@ -1,0 +1,60 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements/k-new-post.html">
+
+<dom-module id="k-post">
+  <template>
+    <style>
+      :host {
+        padding-top: 5px;
+        display: block;
+        background: #eee;
+      }
+      paper-card {
+        width: 100%;
+        margin: 0;
+      }
+
+      a {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover, a:visited, a:target {
+        color: #000;
+        text-decoration: none;
+      }
+    </style>
+
+    <paper-card
+      heading="[[post.title]]"
+    >
+      <div class="card-content">[[post.shortContent]]</div>
+      <a href="[[post.editUrl]]">
+        <paper-button on-tap="editAction">
+          <iron-icon icon="icons:create"></iron-icon>
+        </paper-button>
+      </a>
+
+      <a href="[[post.deleteUrl]]">
+        <paper-button on-tap="deleteAction">
+          <iron-icon icon="icons:delete"></iron-icon>
+        </paper-button>
+      </a>
+
+      <a href="[[post.viewUrl]]">
+        <paper-button on-tap="viewAction">
+          <iron-icon icon="icons:visibility"></iron-icon>
+        </paper-button>
+      </a>
+    </paper-card>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-post',
+      properties: {
+        post: Object
+      }
+    });
+  </script>
+</dom-module>

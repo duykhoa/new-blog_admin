@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run -d -v `pwd`:/app -p 8000:8000 duykhoa/new-blog_admin

@@ -15,5 +15,8 @@
     "gulp-vulcanize": "^6.1.0",
     "polylint": "^2.10.0",
     "run-sequence": "^1.1.5"
+  },
+  "dependencies": {
+    "del": "^2.2.0"
   }
 }

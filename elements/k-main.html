@@ -1,0 +1,45 @@
+<link rel="import" href="../node_modules/polymer/polymer.html">
+
+<!-- This is the main element of the admin site -->
+<!--   Params passing -->
+
+<!--    postsURL-->
+<!--    editURL-->
+<!--    newURL-->
+<!--    deleteURL-->
+
+<dom-module id="k-main">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host * {
+        font-family: "Roboto", san-serif;
+      }
+
+    </style>
+
+    <div class="layout horizontal">
+      <k-post-list posts="[[posts]]"></k-post-list>
+    </div>
+  </template>
+
+  <script>
+   Polymer({
+     is: 'k-main',
+     properties: {
+       posts: {
+         type: Object,
+         value: [
+           {
+             title: "First post",
+             short_content: "test test test"
+           },
+         ]
+       }
+     }
+   });
+  </script>
+</dom-module>

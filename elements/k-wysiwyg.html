@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/wysiwyg-e/wysiwyg-e.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/bold.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/italic.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/underline.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/strike.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/clear.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/link.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/image.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/ordered.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/unordered.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/indent.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/outdent.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/heading.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/justify.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/blockquote.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/undo.html">
+<link rel="import" href="../bower_components/wysiwyg-e/tools/redo.html">
+
+<dom-module id="k-wysiwyg">
+  <template>
+    <style>
+      paper-material {
+        background: white;
+        margin-top: 20px;
+        height: 400px;
+      }
+    </style>
+    <paper-material class="vertical layout">
+      <wysiwyg-e value="{{contentValue}}" class="flex">
+        <wysiwyg-tool-bold class="wysiwyg-tool"></wysiwyg-tool-bold>
+        <wysiwyg-tool-italic class="wysiwyg-tool"></wysiwyg-tool-italic>
+        <wysiwyg-tool-underline class="wysiwyg-tool"></wysiwyg-tool-underline>
+        <wysiwyg-tool-strike class="wysiwyg-tool"></wysiwyg-tool-strike>
+        <wysiwyg-tool-clear class="wysiwyg-tool"></wysiwyg-tool-clear>
+        <wysiwyg-tool-link class="wysiwyg-tool"></wysiwyg-tool-link>
+        <wysiwyg-tool-image class="wysiwyg-tool"></wysiwyg-tool-image>
+        <wysiwyg-tool-ordered class="wysiwyg-tool"></wysiwyg-tool-ordered>
+        <wysiwyg-tool-unordered class="wysiwyg-tool"></wysiwyg-tool-unordered>
+        <wysiwyg-tool-indent class="wysiwyg-tool"></wysiwyg-tool-indent>
+        <wysiwyg-tool-outdent class="wysiwyg-tool"></wysiwyg-tool-outdent>
+        <wysiwyg-tool-justify class="wysiwyg-tool" right center full></wysiwyg-tool-justify>
+        <wysiwyg-tool-heading class="wysiwyg-tool" h1 h2 h3 h4 h5 h6></wysiwyg-tool-heading>
+        <wysiwyg-tool-blockquote class="wysiwyg-tool"></wysiwyg-tool-blockquote>
+        <wysiwyg-tool-undo class="wysiwyg-tool"></wysiwyg-tool-undo>
+        <wysiwyg-tool-redo class="wysiwyg-tool"></wysiwyg-tool-redo>
+      </wysiwyg-e>
+    </paper-material>
+  </template>
+  <script>
+    Polymer({
+      is: 'k-wysiwyg',
+      properties: {
+        contentValue: {
+          type: String,
+          notify: true,
+          value: ""
+        }
+      }
+    });
+  </script>
+</dom-module>

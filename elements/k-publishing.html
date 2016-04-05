@@ -1,0 +1,45 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="k-publishing">
+  <template>
+    <style>
+      paper-button {
+        background: #2a9af2;
+        color: white;
+      }
+    </style>
+    <paper-button on-click="publish">Publish</paper-button>
+
+    <iron-ajax
+     url="[[postUrl]]"
+     content-type="application/json"
+     body="[[computeBody(title, shortContent, content, category)]]"
+     method="POST"
+     on-response="ajaxResponse"
+    ></iron-ajax>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-publishing',
+      properties: {
+        title: String,
+        shortContent: String,
+        content: String,
+        category: String,
+        postUrl: String,
+      },
+      computeBody: function(title, shortContent, content, category) {
+        return { title: title, shortContent: shortContent, content: content, category: category }
+      },
+      publish: function(e) {
+        this.$$('iron-ajax').generateRequest();
+      },
+      ajaxResponse: function(e) {
+        this.fire('iron-signal', { name: 'finishpublishing', data: null })
+      }
+    });
+  </script>
+</dom-module>

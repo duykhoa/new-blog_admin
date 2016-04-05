@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="k-sidebar">
+  <template>
+    <style>
+      li {
+        text-align: center;
+      }
+
+      iron-icon {
+        color: white;
+        --iron-icon-width: 30px;
+        --iron-icon-height: 30px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        padding: 15px;
+      }
+
+      li span {
+        margin-top: 15px;
+        display: block;
+      }
+
+      li[active] {
+        border-left: 3px solid #009688;
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+
+      a:hover, a:visited {
+        color: white;
+      }
+    </style>
+
+    <ul>
+      <template is="dom-repeat" items="[[menuItems]]">
+        <li active>
+          <a href$="[[item.url]]">
+            <iron-icon
+              icon="[[item.icon]]"
+            ></iron-icon>
+
+            <span>[[item.displayText]]</span>
+          </a>
+        </li>
+      </template>
+    </ul>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-sidebar',
+      properties: {
+        menuItems: Array <!-- icons, url, displayText -->
+      }
+    });
+  </script>
+</dom-module>

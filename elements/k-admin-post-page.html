@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements/k-post-list.html">
+<link rel="import" href="../elements/k-nav.html">
+<link rel="import" href="../elements/k-sidebar.html">
+
+<dom-module id="k-admin-post-page">
+  <template>
+    <style>
+      paper-drawer-panel {
+        --paper-drawer-panel-left-drawer-container: {
+          background-color: #424242;
+        };
+      }
+
+      .content {
+        display: block;
+        padding-top: 20px;
+      }
+    </style>
+    <paper-drawer-panel drawer-width="150px">
+      <div drawer>
+        <k-sidebar
+          menu-items="[[menuItems]]"
+        ></k-sidebar>
+      </div>
+
+      <div main>
+        <k-nav user="[[user]]"></k-nav>
+        <div class="content">
+          <k-post-list posts="[[posts]]"></k-post-list>
+        </div>
+      </div>
+    </paper-drawer-panel>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-admin-post-page',
+      properties: {
+        postsUrl: String,
+        user: {
+          type: String,
+          value: {
+            username: "Kevin Tran"
+          }
+        },
+        menuItems: {
+          type: Array,
+          value: [
+            {
+              displayText: "Post",
+              url: "#posts",
+              icon: "icons:description"
+            },
+            {
+              displayText: "Account",
+              url: "#account",
+              icon: "icons:account-circle"
+            }
+          ]
+        },
+        posts: {
+          type: Object,
+          value: [
+            {
+              title: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+              shortContent: "Phasellus cursus, nunc in tincidunt mattis, mauris purus hendrerit erat, vestibulum euismod purus lacus at lectus. Nam eu dui commodo, facilisis neque ac, elementum purus",
+            },
+            {
+              title: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+              shortContent: "Phasellus cursus, nunc in tincidunt mattis, mauris purus hendrerit erat, vestibulum euismod purus lacus at lectus. Nam eu dui commodo, facilisis neque ac, elementum purus",
+            },
+            {
+              title: "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
+              shortContent: "Phasellus cursus, nunc in tincidunt mattis, mauris purus hendrerit erat, vestibulum euismod purus lacus at lectus. Nam eu dui commodo, facilisis neque ac, elementum purus",
+            }
+          ]
+        }
+      }
+    });
+  </script>
+</dom-module>

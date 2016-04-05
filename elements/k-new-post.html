@@ -1,0 +1,106 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/juicy-html/juicy-html.html">
+
+<link rel="import" href="../elements/k-title.html">
+<link rel="import" href="../elements/k-short-content.html">
+<link rel="import" href="../elements/k-editor.html">
+<link rel="import" href="../elements/k-category.html">
+<link rel="import" href="../elements/k-publishing.html">
+
+<dom-module id="k-new-post">
+  <template>
+    <style>
+      paper-tabs {
+        background: #2a9af2;
+        color: #fff;
+      }
+
+      paper-tabs.iron-selected {
+        font-weight: 500;
+      }
+
+      .preview {
+        font-size: 18px;
+        line-height: 1.4em;
+      }
+    </style>
+
+    <paper-tabs selected="{{selected}}">
+      <paper-tab>Edit</paper-tab>
+      <paper-tab>Preview</paper-tab>
+    </paper-tabs>
+
+    <iron-pages selected="{{selected}}">
+      <div>
+        <k-title title="{{titleValue}}"></k-title>
+        <k-short-content short-content="{{shortContentValue}}"></k-short-content>
+        <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
+        <k-editor content="{{contentValue}}"></k-editor>
+        <br/>
+      </div>
+
+      <div class="preview">
+        <div>
+          <b>Title:</b>
+          <span>[[titleValue]]</span>
+        </div>
+
+        <div>
+          <b>Category:</b>
+          <span>[[categoryValue]]</span>
+        </div>
+
+        <div>
+          <b>Short content:</b>
+          <span>[[shortContentValue]]</span>
+        </div>
+
+        <template is="juicy-html" content$="[[contentValue]]"></template>
+      </div>
+    </iron-pages>
+
+    <k-publishing
+      title="[[titleValue]]"
+      short-content="[[shortContentValue]]"
+      content="[[contentValue]]"
+      category="[[categoryValue]]"
+      post-url="[[postUrl]]"
+    ></k-publishing>
+
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-new-post',
+      properties: {
+        titleValue: {
+          type: String,
+          notify: true
+        },
+        shortContentValue: {
+          type: String,
+          notify: true
+        },
+        contentValue: {
+          type: String,
+          notify: true
+        },
+        categoryValue: {
+          type: String,
+          notify: true
+        },
+        categoryList: {
+          type: Object,
+          value: [ "Category 1", "Category 2", "Category 3" ]
+        },
+       postUrl: String,
+       selected: {
+         type: Number,
+         value: 0
+       }
+      }
+    });
+  </script>
+</dom-module>
