@@ -5,7 +5,7 @@ var minifyHTML = require('gulp-minify-html');
 var runSequence = require('run-sequence');
 
 gulp.task('vulcanize', function () {
-  return gulp.src(['elements/k-new-post.html'])
+  return gulp.src(['elements/k-new-post.html', 'k-admin-post-page'])
     .pipe(vulcanize({
     }))
     .pipe(gulp.dest('dist/vulcanize'));
