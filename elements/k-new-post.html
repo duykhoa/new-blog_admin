@@ -37,7 +37,7 @@
       <div>
         <k-title title="{{titleValue}}"></k-title>
         <k-short-content short-content="{{shortContentValue}}"></k-short-content>
-        <k-header-image uploadUrl="[[imageHost]]"></k-header-image>
+        <k-header-image header-image="{{headerImageValue}}" uploadUrl="[[imageHost]]"></k-header-image>
         <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
         <k-editor content="{{contentValue}}"></k-editor>
         <br/>
@@ -70,7 +70,6 @@
       category="[[categoryValue]]"
       post-url="[[postUrl]]"
     ></k-publishing>
-
   </template>
 
   <script>
@@ -85,10 +84,10 @@
           type: String,
           notify: true
         },
-        // headerImageValue: {
-        //   type: String,
-        //   notify: true
-        // },
+        headerImageValue: {
+          type: String,
+          notify: true
+        },
         imageHost: String,
         contentValue: {
           type: String,
@@ -107,6 +106,13 @@
          type: Number,
          value: 0
        }
+      },
+      ready: function () {
+        var onFileSelected = function(e) {
+          return (this.headerImageValue = e.target.files);
+        };
+
+        document.querySelector("k-header-image").addEventListener('change', onFileSelected.bind(this), false);
       }
     });
   </script>
