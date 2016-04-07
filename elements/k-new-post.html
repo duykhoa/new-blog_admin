@@ -8,6 +8,7 @@
 <link rel="import" href="../elements/k-editor.html">
 <link rel="import" href="../elements/k-category.html">
 <link rel="import" href="../elements/k-publishing.html">
+<link rel="import" href="../elements/k-header-image.html">
 
 <dom-module id="k-new-post">
   <template>
@@ -36,6 +37,7 @@
       <div>
         <k-title title="{{titleValue}}"></k-title>
         <k-short-content short-content="{{shortContentValue}}"></k-short-content>
+        <k-header-image uploadUrl="[[imageHost]]"></k-header-image>
         <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
         <k-editor content="{{contentValue}}"></k-editor>
         <br/>
@@ -83,6 +85,11 @@
           type: String,
           notify: true
         },
+        // headerImageValue: {
+        //   type: String,
+        //   notify: true
+        // },
+        imageHost: String,
         contentValue: {
           type: String,
           notify: true

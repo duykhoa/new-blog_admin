@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="k-header-image">
+  <template>
+    <style>
+      paper-input {
+        width: 210px;
+      }
+    </style>
+    <paper-input id="inputImage" type="File" label="Choose File..."></paper-input>
+
+    <iron-ajax
+     url="[[uploadUrl]]"
+     content-type="application/json"
+     method="POST"
+     on-response="ajaxResponse"
+    ></iron-ajax>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'k-header-image',
+       properties: {
+        headerImage: {
+          type: String,
+          notify: true
+        },
+        uploadUrl: String
+      }
+    });
+  </script>
+</dom-module>
