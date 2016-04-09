@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/file-upload/file-upload.html">
+
+<dom-module id="k-image-upload">
+  <template>
+    <style>
+      :host {
+        display: block
+      }
+
+      file-upload {
+        display: block;
+      }
+    </style>
+    <file-upload
+      target="[[imageUploadUrl]]"
+      accept="image/*"
+      progress-hidden=true
+    >Choose a file</file-upload>
+  </template>
+
+  <script>
+   Polymer({
+      is: 'k-image-upload',
+      properties: {
+      }
+    });
+  </script>
+</dom-module>
