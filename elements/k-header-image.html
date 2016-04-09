@@ -1,0 +1,79 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<dom-module id="k-header-image">
+  <template>
+    <style>
+      paper-input {
+        width: 300px;
+      }
+
+      iron-image {
+        height: 200px;
+        width: 200px;
+      }
+    </style>
+    <paper-input type="file"></paper-input>
+
+    <iron-ajax
+     url="[[uploadUrl]]"
+     content-type="application/json"
+     body="[[upload(headerImage)]]"
+     method="POST"
+     on-response="ajaxResponse"
+    ></iron-ajax>
+    <iron-image src="" sizing="cover"></iron-image>
+    <br />
+  </template>
+  <script>
+    Polymer({
+      is: 'k-header-image',
+       properties: {
+        headerImage: {
+          type: String,
+          notify: true
+        },
+        uploadUrl: String,
+        customheader: {
+          type: String,
+          value: 'img-file',
+          notify: true
+        }
+      },
+      upload: function (headerImage) {
+        console.log(headerImage);
+        this.readData(headerImage[0]);
+      },
+      readData: function(file) {
+        var customheader = this.customheader;
+        var reader = new FileReader();
+        var that = this;
+        reader.onload = function(event) {
+          that.$$('iron-ajax').headers = {};
+          that.$$('iron-ajax').headers[customheader] = JSON.stringify({
+            type: this.imgFile.type,
+            name:  encodeURIComponent(this.imgFile.name)
+          });
+          that.$$('iron-ajax').imgFile = this.imgFile;
+          that.$$('iron-ajax').body = event.target.result;
+          that.$$('iron-ajax').generateRequest();
+        };
+        reader.imgFile = {
+          type: file.type,
+          name: file.name
+        };
+        this.fire('fileUploading', reader.imgFile);
+        reader.readAsDataURL(file);
+        reader.addEventListener("load", function () {
+          document.querySelector('iron-image').src = reader.result;
+        }, false);
+      },
+      ajaxResponse: function(e) {
+        this.fire('iron-signal', { name: 'finishupload', data: null })
+      }
+    });
+  </script>
+</dom-module>
