@@ -7,6 +7,8 @@ var runSequence = require('run-sequence');
 gulp.task('vulcanize', function () {
   return gulp.src(['elements/k-new-post.html', 'elements/k-admin-post-page.html'])
     .pipe(vulcanize({
+      inlineScripts: true,
+      inlineCss: true
     }))
     .pipe(gulp.dest('dist/vulcanize'));
 });
