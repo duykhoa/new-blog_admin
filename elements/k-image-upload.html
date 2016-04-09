@@ -1,64 +1,28 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/file-upload/file-upload.html">
 
 <dom-module id="k-image-upload">
   <template>
     <style>
+      :host {
+        display: block
+      }
 
+      file-upload {
+        display: block;
+      }
     </style>
-    <div>
-      <div class="upload">
-        <paper-fab mini icon="file-upload" on-click="onClick"></paper-fab>
-      </div>
-      <div id='UploadBorder'>
-        <div>
-          <span>{{fileName}}</span>
-        </div>
-      </div>
-    </div>
-    <input type="file" id="fileInput" on-change="fileChange" hidden>
+    <file-upload
+      target="[[imageUploadUrl]]"
+      accept="image/*"
+      progress-hidden=true
+    >Choose a file</file-upload>
   </template>
+
   <script>
-    Polymer({
+   Polymer({
       is: 'k-image-upload',
       properties: {
-        postUrl: {
-          type: String
-        },
-        image: {
-          type: Object
-        } 
-      },
-      onClick: function () {
-        var elem = this.$.fileInput;
-        if (elem && document.createEvent) {
-          var evt = document.createEvent("MouseEvents");
-          evt.initEvent("click", true, false);
-          elem.dispatchEvent(evt);
-        }
-      },
-      fileChange: function (e) {
-        this.progressInvisible = true;
-        this.progress = undefined;
-        var file = e.target.files[0];
-
-        console.log(file);
-
-        this.fire('fileChange', {});
-        this.uploadFile(file);
-      },
-      uploadFile: function (file) {
-        console.log(file);
-        if (!file) {
-          this.fileName = "";
-        } else {
-          var self = this;
-          this.fileName = file.name;
-          var xhr = this.xhr = new XMLHttpRequest();
-          
-          xhr.open('POST', this.postUrl, true);
-          // TODO
-        }
       }
     });
   </script>
