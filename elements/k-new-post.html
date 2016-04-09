@@ -8,6 +8,7 @@
 <link rel="import" href="../elements/k-editor.html">
 <link rel="import" href="../elements/k-category.html">
 <link rel="import" href="../elements/k-publishing.html">
+<link rel="import" href="../elements/k-image-upload.html">
 
 <dom-module id="k-new-post">
   <template>
@@ -37,6 +38,11 @@
         <k-title title="{{titleValue}}"></k-title>
         <k-short-content short-content="{{shortContentValue}}"></k-short-content>
         <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
+        <k-image-upload image="{{imageValue}}"></k-image-upload>
+
+        <k-image
+          image-source="[[imageObject.thumbnailUrl]]"
+        ></k-image>
         <k-editor content="{{contentValue}}"></k-editor>
         <br/>
       </div>
@@ -67,6 +73,7 @@
       content="[[contentValue]]"
       category="[[categoryValue]]"
       post-url="[[postUrl]]"
+      image="[[imageValue]]"
     ></k-publishing>
 
   </template>
@@ -95,8 +102,11 @@
           type: Object,
           value: [ "Category 1", "Category 2", "Category 3" ]
         },
-       postUrl: String,
-       selected: {
+        imageObject: {
+          type: Object
+        },
+        postUrl: String,
+        selected: {
          type: Number,
          value: 0
        }
