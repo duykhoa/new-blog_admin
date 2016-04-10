@@ -24280,7 +24280,7 @@ if (!window.Promise) {
         font-size: 18px;
         line-height: 1.4em;
       }
-    </style><paper-tabs selected={{selected}}><paper-tab>Edit</paper-tab><paper-tab>Preview</paper-tab></paper-tabs><iron-pages selected={{selected}}><div><k-title title={{titleValue}}></k-title><k-short-content short-content={{shortContentValue}}></k-short-content><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-image-upload image={{imageValue}} image-upload-url=[[imageUploadUrl]]></k-image-upload><k-editor content={{contentValue}}></k-editor><br></div><div class=preview><div><b>Title:</b> <span>[[titleValue]]</span></div><div><b>Category:</b> <span>[[categoryValue]]</span></div><div><b>Short content:</b> <span>[[shortContentValue]]</span></div><template is=juicy-html content$=[[contentValue]]></template></div></iron-pages><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]]></k-publishing></template><script>
+    </style><paper-tabs selected={{selected}}><paper-tab>Edit</paper-tab><paper-tab>Preview</paper-tab></paper-tabs><iron-pages selected={{selected}}><div><k-title title={{titleValue}}></k-title><k-short-content short-content={{shortContentValue}}></k-short-content><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]]></k-image-upload><k-editor content={{contentValue}}></k-editor><br></div><div class=preview><div><b>Title:</b> <span>[[titleValue]]</span></div><div><b>Category:</b> <span>[[categoryValue]]</span></div><div><b>Short content:</b> <span>[[shortContentValue]]</span></div><template is=juicy-html content$=[[contentValue]]></template></div></iron-pages><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]]></k-publishing></template><script>
    Polymer({
       is: 'k-new-post',
       properties: {
@@ -24307,7 +24307,7 @@ if (!window.Promise) {
         imageObject: {
           type: Object
         },
-        imageUploadUrl: String,
+        headerUploadUrl: String,
         postUrl: String,
         selected: {
          type: Number,

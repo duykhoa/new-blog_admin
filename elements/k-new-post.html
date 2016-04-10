@@ -38,7 +38,7 @@
         <k-title title="{{titleValue}}"></k-title>
         <k-short-content short-content="{{shortContentValue}}"></k-short-content>
         <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
-        <k-image-upload image="{{imageValue}}" image-upload-url="[[imageUploadUrl]]"></k-image-upload>
+        <k-image-upload image="{{imageValue}}" image-upload-url="[[headerUploadUrl]]"></k-image-upload>
 
         <k-editor content="{{contentValue}}"></k-editor>
         <br/>
@@ -102,7 +102,7 @@
         imageObject: {
           type: Object
         },
-        imageUploadUrl: String,
+        headerUploadUrl: String,
         postUrl: String,
         selected: {
          type: Number,
