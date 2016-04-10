@@ -25069,7 +25069,7 @@ if (!window.Promise) {
         image: String
       },
       computeBody: function(title, shortContent, content, category, image) {
-        return { title: title, shortContent: shortContent, content: content, category: category, image: image }
+        return { title: title, short_content: shortContent, content: content, category: category, image: image }
       },
       publish: function(e) {
         this.$$('iron-ajax').generateRequest();
