@@ -12,7 +12,7 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
     "iron-icon": "PolymerElements/iron-icon#^1.0.0",
     "iron-icons": "PolymerElements/iron-icons#^1.0.0",
-    "iron-image": "PolymerElements/iron-image#^1.0.0",
+    "iron-image": "PolymerElements/iron-image#^1.2.3",
     "iron-input": "PolymerElements/iron-input#^1.0.0",
     "iron-label": "PolymerElements/iron-label#^1.0.0",
     "iron-list": "PolymerElements/iron-list#^1.0.0",
