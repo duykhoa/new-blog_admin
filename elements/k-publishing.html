@@ -15,7 +15,7 @@
     <iron-ajax
      url="[[postUrl]]"
      content-type="application/json"
-     body="[[computeBody(title, shortContent, content, category)]]"
+     body="[[computeBody(title, shortContent, content, category, image)]]"
      method="POST"
      on-response="ajaxResponse"
     ></iron-ajax>
@@ -30,9 +30,10 @@
         content: String,
         category: String,
         postUrl: String,
+        image: String
       },
-      computeBody: function(title, shortContent, content, category) {
-        return { title: title, shortContent: shortContent, content: content, category: category }
+      computeBody: function(title, shortContent, content, category, image) {
+        return { title: title, shortContent: shortContent, content: content, category: category, image: image }
       },
       publish: function(e) {
         this.$$('iron-ajax').generateRequest();
