@@ -38,7 +38,14 @@
         <k-title title="{{titleValue}}"></k-title>
         <k-short-content short-content="{{shortContentValue}}"></k-short-content>
         <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
-        <k-image-upload image="{{imageValue}}" image-upload-url="[[headerUploadUrl]]"></k-image-upload>
+        <k-image-upload
+          image="{{imageValue}}"
+          image-upload-url="[[headerUploadUrl]]"
+          method="[[uploadMethod]]"
+          thumbnail="{{thumbnailImage}}"
+        ></k-image-upload>
+
+        <div>[[thumbnailImage]]</div>
 
         <k-editor content="{{contentValue}}"></k-editor>
         <br/>
@@ -103,6 +110,7 @@
           type: Object
         },
         headerUploadUrl: String,
+        uploadMethod: String,
         postUrl: String,
         selected: {
          type: Number,

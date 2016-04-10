@@ -15,8 +15,9 @@
     <file-upload
       target="[[imageUploadUrl]]"
       accept="image/*"
-      method="POST"
+      method="[[method]]"
       progress-hidden=true
+      on-success="uploadSuccess"
     >Choose a file</file-upload>
   </template>
 
@@ -24,7 +25,24 @@
    Polymer({
       is: 'k-image-upload',
       properties: {
-        imageUploadUrl: String
+        imageUploadUrl: String,
+        method: {
+          type: String,
+          value: "POST"
+        },
+        thumbnail: {
+          type: String,
+          notify: true
+        },
+        image: {
+          type: String,
+          notify: true
+        }
+      },
+      uploadSuccess: function(e, data) {
+        json_data = JSON.parse(data.xhr.response);
+        this.thumbnail = json_data.thumbnailUrl;
+        this.image = json_data.dataUrl;
       }
     });
   </script>
