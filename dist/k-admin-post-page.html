@@ -25057,7 +25057,7 @@ if (!window.Promise) {
         background: #2a9af2;
         color: white;
       }
-    </style><paper-button on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="[[computeBody(title, shortContent, content, category)]]" method=POST on-response=ajaxResponse></iron-ajax></template><script>
+    </style><paper-button on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="[[computeBody(title, shortContent, content, category, image)]]" method=POST on-response=ajaxResponse></iron-ajax></template><script>
    Polymer({
       is: 'k-publishing',
       properties: {
@@ -25066,9 +25066,10 @@ if (!window.Promise) {
         content: String,
         category: String,
         postUrl: String,
+        image: String
       },
-      computeBody: function(title, shortContent, content, category) {
-        return { title: title, shortContent: shortContent, content: content, category: category }
+      computeBody: function(title, shortContent, content, category, image) {
+        return { title: title, shortContent: shortContent, content: content, category: category, image: image }
       },
       publish: function(e) {
         this.$$('iron-ajax').generateRequest();
@@ -25851,11 +25852,28 @@ if (!window.Promise) {
       file-upload {
         display: block;
       }
-    </style><file-upload target=[[imageUploadUrl]] accept=image/* method=POST progress-hidden=true>Choose a file</file-upload></template><script>
+    </style><file-upload target=[[imageUploadUrl]] accept=image/* method=[[method]] progress-hidden=true on-success=uploadSuccess noink>Choose header image</file-upload></template><script>
    Polymer({
       is: 'k-image-upload',
       properties: {
-        imageUploadUrl: String
+        imageUploadUrl: String,
+        method: {
+          type: String,
+          value: "POST"
+        },
+        thumbnail: {
+          type: String,
+          notify: true
+        },
+        image: {
+          type: String,
+          notify: true
+        }
+      },
+      uploadSuccess: function(e, data) {
+        json_data = JSON.parse(data.xhr.response);
+        this.thumbnail = json_data.thumbnailUrl;
+        this.image = json_data.dataUrl;
       }
     });
   </script></dom-module><dom-module id=k-new-post assetpath="/"><template><style>
@@ -25872,7 +25890,7 @@ if (!window.Promise) {
         font-size: 18px;
         line-height: 1.4em;
       }
-    </style><paper-tabs selected={{selected}}><paper-tab>Edit</paper-tab><paper-tab>Preview</paper-tab></paper-tabs><iron-pages selected={{selected}}><div><k-title title={{titleValue}}></k-title><k-short-content short-content={{shortContentValue}}></k-short-content><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]]></k-image-upload><k-editor content={{contentValue}}></k-editor><br></div><div class=preview><div><b>Title:</b> <span>[[titleValue]]</span></div><div><b>Category:</b> <span>[[categoryValue]]</span></div><div><b>Short content:</b> <span>[[shortContentValue]]</span></div><template is=juicy-html content$=[[contentValue]]></template></div></iron-pages><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]]></k-publishing></template><script>
+    </style><paper-tabs selected={{selected}}><paper-tab>Edit</paper-tab><paper-tab>Preview</paper-tab></paper-tabs><iron-pages selected={{selected}}><div><k-title title={{titleValue}}></k-title><k-short-content short-content={{shortContentValue}}></k-short-content><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]] method=[[uploadMethod]] thumbnail={{thumbnailImage}}></k-image-upload><iron-image src$=[[thumbnailImage]] preload fade></iron-image><k-editor content={{contentValue}}></k-editor><br></div><div class=preview><div><b>Title:</b> <span>[[titleValue]]</span></div><div><b>Category:</b> <span>[[categoryValue]]</span></div><div><b>Short content:</b> <span>[[shortContentValue]]</span></div><template is=juicy-html content$=[[contentValue]]></template></div></iron-pages><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]]></k-publishing></template><script>
    Polymer({
       is: 'k-new-post',
       properties: {
@@ -25900,6 +25918,7 @@ if (!window.Promise) {
           type: Object
         },
         headerUploadUrl: String,
+        uploadMethod: String,
         postUrl: String,
         selected: {
          type: Number,
