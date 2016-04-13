@@ -81,7 +81,7 @@
                 image-upload-url="[[headerUploadUrl]]"
                 method="[[uploadMethod]]"
                 thumbnail="{{thumbnailImage}}"
-                image="{{imageValue}}"
+                uploading="{{uploadingValue}}"
               ></k-image-upload>
 
               <iron-image
@@ -97,6 +97,7 @@
                 category="[[categoryValue]]"
                 post-url="[[postUrl]]"
                 image="[[imageValue]]"
+                disabled="{{uploadingValue}}"
               ></k-publishing>
             </div>
           </div>
@@ -111,7 +112,7 @@
             image-upload-url="[[headerUploadUrl]]"
             method="[[uploadMethod]]"
             thumbnail="{{thumbnailImage}}"
-            image="{{imageValue}}"
+            uploading="{{uploadingValue}}"
           ></k-image-upload>
 
           <iron-image
@@ -128,6 +129,7 @@
             category="[[categoryValue]]"
             post-url="[[postUrl]]"
             image="[[imageValue]]"
+            disabled="[[uploadingValue]]"
           ></k-publishing>
         </template>
       </div>

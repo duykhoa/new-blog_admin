@@ -39,12 +39,18 @@
         image: {
           type: String,
           notify: true
+        },
+        uploading: {
+          type: Boolean,
+          value: false,
+          notify: true
         }
       },
       uploadSuccess: function(e, data) {
         json_data = JSON.parse(data.xhr.response);
         this.thumbnail = json_data.thumbnailUrl;
         this.image = json_data.dataUrl;
+        this.uploading = false;
       }
     });
   </script>
