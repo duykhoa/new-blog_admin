@@ -3,7 +3,7 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/juicy-html/juicy-html.html">
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
 
 <link rel="import" href="../elements/k-title.html">
@@ -17,28 +17,11 @@
   <template>
     <style>
       .container {
-        padding: 5px;
-        margin: 0;
+        padding: 0 10px;
       }
 
-      .flex-horizontal {
-        @apply(--layout-horizontal);
-      }
-
-      .flex4child {
-        @apply(--layout-flex-4);
-        padding: 5px 10px;
-        margin: 5px;
-      }
-
-      .flex8child {
-        @apply(--layout-flex-8);
-        padding: 5px 10px;
-        margin: 5px;
-      }
-
-      .image-upload {
-        margin-top: 20px;
+      k-image-upload {
+        margin-top: 20px
       }
 
       paper-tabs {
@@ -56,6 +39,15 @@
         font-size: 18px;
         line-height: 1.4em;
       }
+
+      .preview h2 {
+        font-weight: bold;
+        text-transform: capitalize;
+      }
+
+      .preview h4 {
+        font-weight: bold;
+      }
     </style>
     <iron-media-query query="(min-width: 752px)" query-matches="{{wide}}"></iron-media-query>
 
@@ -67,38 +59,40 @@
     <iron-pages selected="{{selected}}" wide-layout$="{{wide}}">
       <div>
         <template is="dom-if" if="{{wide}}">
-          <div class="container flex-horizontal">
-            <div class="flex8child">
-              <k-title title="{{titleValue}}"></k-title>
-              <k-editor content="{{contentValue}}"></k-editor>
+          <div class="layout horizontal">
+            <div class="flex-8">
+              <div class="container">
+                <k-title title="{{titleValue}}"></k-title>
+                <k-editor content="{{contentValue}}"></k-editor>
+              </div>
             </div>
-            <div class="flex4child">
-              <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
-              <k-short-content short-content="{{shortContentValue}}"></k-short-content>
-              <k-image-upload
-                class="image-upload"
-                image="{{imageValue}}"
-                image-upload-url="[[headerUploadUrl]]"
-                method="[[uploadMethod]]"
-                thumbnail="{{thumbnailImage}}"
-                uploading="{{uploadingValue}}"
-              ></k-image-upload>
+            <div class="flex-4">
+              <div class="container">
+                <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
+                <k-short-content short-content="{{shortContentValue}}"></k-short-content>
+                <k-image-upload
+                  image="{{imageValue}}"
+                  image-upload-url="[[headerUploadUrl]]"
+                  method="[[uploadMethod]]"
+                  thumbnail="{{thumbnailImage}}"
+                  uploading="{{uploadingValue}}"
+                ></k-image-upload>
 
-              <iron-image
-                src$="[[thumbnailImage]]"
-                preload
-                fade
-              ></iron-image>
-              <br>
-              <k-publishing
-                title="[[titleValue]]"
-                short-content="[[shortContentValue]]"
-                content="[[contentValue]]"
-                category="[[categoryValue]]"
-                post-url="[[postUrl]]"
-                image="[[imageValue]]"
-                disabled="{{uploadingValue}}"
-              ></k-publishing>
+                <iron-image
+                  src$="[[thumbnailImage]]"
+                  preload
+                  fade
+                ></iron-image>
+                <k-publishing
+                  title="[[titleValue]]"
+                  short-content="[[shortContentValue]]"
+                  content="[[contentValue]]"
+                  category="[[categoryValue]]"
+                  post-url="[[postUrl]]"
+                  image="[[imageValue]]"
+                  disabled="{{uploadingValue}}"
+                ></k-publishing>
+              </div>
             </div>
           </div>
         </template>
@@ -108,7 +102,6 @@
           <k-short-content short-content="{{shortContentValue}}"></k-short-content>
           <k-category category="{{categoryValue}}" categories="[[categoryList]]"></k-category>
           <k-image-upload
-            class="image-upload"
             image="{{imageValue}}"
             image-upload-url="[[headerUploadUrl]]"
             method="[[uploadMethod]]"
@@ -122,7 +115,6 @@
             fade
           ></iron-image>
           <k-editor content="{{contentValue}}"></k-editor>
-          <br>
           <k-publishing
             title="[[titleValue]]"
             short-content="[[shortContentValue]]"
@@ -135,12 +127,12 @@
         </template>
       </div>
       <div class="preview">
-        <div style="text-transform: capitalize;">
-          <h2><b>[[titleValue]]</b></h2>
+        <div>
+          <h2>[[titleValue]]</h2>
         </div>
 
         <div>
-          <span><b><em>[[shortContentValue]]</em></b></span>
+          <h4><em>[[shortContentValue]]</em></h4>
         </div>
 
         <template is="juicy-html" content$="[[contentValue]]"></template>
