@@ -17,8 +17,10 @@
       accept="image/*"
       method="[[method]]"
       progress-hidden=true
+      on-before-upload="beforeUpload"
       on-success="uploadSuccess"
       noink
+      raised
     >Choose header image</file-upload>
   </template>
 
@@ -38,12 +40,21 @@
         image: {
           type: String,
           notify: true
+        },
+        uploading: {
+          type: Boolean,
+          notify: true,
+          value: false,
         }
       },
       uploadSuccess: function(e, data) {
         json_data = JSON.parse(data.xhr.response);
         this.thumbnail = json_data.thumbnailUrl;
         this.image = json_data.dataUrl;
+        this.uploading = false;
+      },
+      beforeUpload: function(e) {
+        this.uploading = true;
       }
     });
   </script>
