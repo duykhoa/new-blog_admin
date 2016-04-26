@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="k-login">
+  <template>
+    <style>
+      paper-button {
+        background-color: #2a9af2;
+        color: white;
+      }
+    </style>
+
+    <iron-ajax
+      id="loginajax"
+      url="[[loginUrl]]"
+      method="POST"
+      body="[[loginPayload(user, password)]]"
+      on-response="handleResponse"
+      content-type="application/json"
+    ></iron-ajax>
+
+    <div class="layout">
+      <paper-input
+       label="User"
+       value="{{user}}"
+      ></paper-input>
+
+      <paper-input
+       label="Password"
+       type="password"
+       value="{{password}}"
+      ></paper-input>
+
+      <paper-button raise
+       on-tap="login"
+      >Login</paper-button>
+    </div>
+
+  </template>
+
+  <script>
+  Polymer({
+    is: "k-login",
+    properties: {
+      loginUrl: String
+    },
+    loginPayload: function(user, password) {
+      return { user: user, password: password }
+    },
+    login: function(e) {
+      this.$.loginajax.generateRequest();
+    }
+  });
+  </script>
+</dom-module>
