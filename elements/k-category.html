@@ -6,9 +6,12 @@
 <dom-module id="k-category">
   <template>
     <style>
+      paper-dropdown-menu {
+        width: 100%;
+      }
     </style>
 
-    <paper-dropdown-menu label="Category" value="{{category}}">
+    <paper-dropdown-menu label="Choose a category" value="{{category}}">
       <paper-menu class="dropdown-content">
         <template is="dom-repeat" items="{{categories}}">
           <paper-item>[[item]]</paper-item>

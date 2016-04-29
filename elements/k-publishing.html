@@ -10,7 +10,11 @@
         color: white;
       }
     </style>
-    <paper-button on-click="publish">Publish</paper-button>
+
+    <paper-button
+      disabled="[[disabled]]"
+      on-click="publish"
+    >Publish</paper-button>
 
     <iron-ajax
      url="[[postUrl]]"
@@ -30,7 +34,11 @@
         content: String,
         category: String,
         postUrl: String,
-        image: String
+        image: String,
+        disabled: {
+          type: String,
+          notify: true
+        }
       },
       computeBody: function(title, shortContent, content, category, image) {
         return { title: title, short_content: shortContent, content: content, category: category, image: image }

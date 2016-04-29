@@ -6,6 +6,7 @@
 <link rel="import" href="../elements/k-post-list.html">
 <link rel="import" href="../elements/k-nav.html">
 <link rel="import" href="../elements/k-sidebar.html">
+<link rel="import" href="../elements/k-login.html">
 
 <dom-module id="k-admin-post-page">
   <template>
@@ -18,7 +19,7 @@
 
       .content {
         display: block;
-        padding-top: 20px;
+        padding: 15px 0;
       }
 
       paper-fab {
@@ -27,6 +28,7 @@
         bottom: 10px;
       }
     </style>
+
     <paper-drawer-panel drawer-width="150px">
       <div drawer>
         <k-sidebar
@@ -35,8 +37,10 @@
       </div>
 
       <div main>
-        <k-nav user="[[user]]"></k-nav>
         <paper-header-panel>
+          <div class="paper-header">
+            <k-nav user="[[user]]"></k-nav>
+          </div>
           <div class="content">
             <k-post-list posts="[[posts]]"></k-post-list>
           </div>
@@ -55,6 +59,10 @@
       properties: {
         newPostUrl: String,
         postsUrl: String,
+        loginUrl: {
+          type: String,
+          value: "/login"
+        },
         user: {
           type: String,
           value: {
