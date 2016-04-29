@@ -32,10 +32,10 @@
     <k-login
       login-url="[[loginUrl]]"
       token="{{tokenValue}}"
-      hidden="{{tokenValue}}"
+      hidden="[[tokenValue]]"
     ></k-login>
 
-    <paper-drawer-panel drawer-width="150px" hidden="[[computeHide(tokenValue)]]">
+    <paper-drawer-panel drawer-width="150px" hidden="[[!tokenValue]]">
       <div drawer>
         <k-sidebar
           menu-items="[[menuItems]]"
@@ -94,9 +94,6 @@
           type: Object,
           value: []
         }
-      },
-      computeHide: function(tokenValue){
-        return tokenValue === undefined
       }
     });
   </script>
