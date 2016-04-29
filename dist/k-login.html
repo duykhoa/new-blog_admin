@@ -13109,7 +13109,7 @@ if (!window.Promise) {
         background-color: #2a9af2;
         color: white;
       }
-    </style><iron-ajax id=loginajax url=[[loginUrl]] method=GET body="[[loginPayload(user, password)]]" last-response={{token}} content-type=application/json></iron-ajax><div class=layout><paper-input label=User value={{user}}></paper-input><paper-input label=Password type=password value={{password}}></paper-input><paper-button raise on-tap=login>Login</paper-button></div></template><script>
+    </style><iron-ajax id=loginajax url=[[loginUrl]] method=POST body="[[loginPayload(user, password)]]" last-response={{token}} content-type=application/json></iron-ajax><div class=layout><paper-input label=User value={{user}}></paper-input><paper-input label=Password type=password value={{password}}></paper-input><paper-button raise on-tap=login>Login</paper-button></div></template><script>
   Polymer({
     is: "k-login",
     properties: {
