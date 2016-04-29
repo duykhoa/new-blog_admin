@@ -6,6 +6,7 @@
 <link rel="import" href="../elements/k-post-list.html">
 <link rel="import" href="../elements/k-nav.html">
 <link rel="import" href="../elements/k-sidebar.html">
+<link rel="import" href="../elements/k-login.html">
 
 <dom-module id="k-admin-post-page">
   <template>
@@ -27,7 +28,14 @@
         bottom: 10px;
       }
     </style>
-    <paper-drawer-panel drawer-width="150px">
+
+    <k-login
+      login-url="[[loginUrl]]"
+      token="{{tokenValue}}"
+      hidden="[[tokenValue]]"
+    ></k-login>
+
+    <paper-drawer-panel drawer-width="150px" hidden="[[notLogin(tokenValue)]]">
       <div drawer>
         <k-sidebar
           menu-items="[[menuItems]]"
@@ -57,6 +65,10 @@
       properties: {
         newPostUrl: String,
         postsUrl: String,
+        loginUrl: {
+          type: String,
+          value: "/login"
+        },
         user: {
           type: String,
           value: {
@@ -82,6 +94,9 @@
           type: Object,
           value: []
         }
+      },
+      notLogin: function(token) {
+        return token === undefined;
       }
     });
   </script>
