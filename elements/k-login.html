@@ -15,9 +15,9 @@
     <iron-ajax
       id="loginajax"
       url="[[loginUrl]]"
-      method="POST"
+      method="GET"
       body="[[loginPayload(user, password)]]"
-      on-response="handleResponse"
+      last-response="{{token}}"
       content-type="application/json"
     ></iron-ajax>
 
@@ -44,15 +44,17 @@
   Polymer({
     is: "k-login",
     properties: {
-      loginUrl: String
+      loginUrl: String,
+      token: {
+        type: String,
+        notify: true
+      }
     },
     loginPayload: function(user, password) {
       return { user: user, password: password }
     },
     login: function(e) {
       this.$.loginajax.generateRequest();
-    },
-    handleResponse: function(e, data) {
     }
   });
   </script>
