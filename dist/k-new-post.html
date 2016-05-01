@@ -23783,10 +23783,11 @@ if (!window.Promise) {
         background: #2a9af2;
         color: white;
       }
-    </style><paper-button disabled=[[disabled]] on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="{{computeBody(title, shortContent, content, category, image)}}" method=POST on-response=ajaxResponse></iron-ajax></template><script>
+    </style><paper-button disabled=[[disabled]] on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="{{computeBody(title, shortContent, content, category, image)}}" method=GET on-response=ajaxResponse></iron-ajax></template><script>
    Polymer({
       is: 'k-publishing',
       properties: {
+        redirectUrl: String,
         title: {
           type: String,
           value: 'A Post'
@@ -23820,7 +23821,9 @@ if (!window.Promise) {
         this.$$('iron-ajax').generateRequest();
       },
       ajaxResponse: function(e) {
-        this.fire('iron-signal', { name: 'finishpublishing', data: null })
+        debugger
+        this.fire('iron-signal', { name: 'finishpublishing', data: null });
+        document.location = this.redirectUrl;
       }
     });
   </script></dom-module><script>
@@ -24663,7 +24666,7 @@ if (!window.Promise) {
       .preview h4 {
         font-weight: bold;
       }
-    </style><iron-media-query query="(min-width: 752px)" query-matches={{wide}}></iron-media-query><paper-tabs selected={{selected}}><paper-tab>Edit</paper-tab><paper-tab>Preview</paper-tab></paper-tabs><iron-pages selected={{selected}}><div><template is=dom-if if={{wide}}><div class="layout horizontal"><div class=flex-8><div class=container><k-title title={{titleValue}}></k-title><k-editor content={{contentValue}}></k-editor></div></div><div class=flex-4><div class=container><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-short-content short-content={{shortContentValue}}></k-short-content><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]] method=[[uploadMethod]] thumbnail={{thumbnailImage}} uploading={{uploadingValue}}></k-image-upload><iron-image src$=[[thumbnailImage]] preload fade></iron-image><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]] disabled={{uploadingValue}}></k-publishing></div></div></div></template><template is=dom-if if={{!wide}}><k-title title={{titleValue}}></k-title><k-short-content short-content={{shortContentValue}}></k-short-content><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]] method=[[uploadMethod]] thumbnail={{thumbnailImage}} uploading={{uploadingValue}}></k-image-upload><iron-image src$=[[thumbnailImage]] preload fade></iron-image><k-editor content={{contentValue}}></k-editor><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]] disabled=[[uploadingValue]]></k-publishing></template></div><div class=preview><div><h2>[[titleValue]]</h2></div><div><h4><em>[[shortContentValue]]</em></h4></div><template is=juicy-html content$=[[contentValue]]></template><div><b>[Category: [[categoryValue]] ]</b></div></div></iron-pages></template><script>
+    </style><iron-media-query query="(min-width: 752px)" query-matches={{wide}}></iron-media-query><paper-tabs selected={{selected}}><paper-tab>Edit</paper-tab><paper-tab>Preview</paper-tab></paper-tabs><iron-pages selected={{selected}}><div><template is=dom-if if={{wide}}><div class="layout horizontal"><div class=flex-8><div class=container><k-title title={{titleValue}}></k-title><k-editor content={{contentValue}}></k-editor></div></div><div class=flex-4><div class=container><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-short-content short-content={{shortContentValue}}></k-short-content><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]] method=[[uploadMethod]] thumbnail={{thumbnailImage}} uploading={{uploadingValue}}></k-image-upload><iron-image src$=[[thumbnailImage]] preload fade></iron-image><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]] disabled={{uploadingValue}} redirect-url=[[redirectUrl]]></k-publishing></div></div></div></template><template is=dom-if if={{!wide}}><k-title title={{titleValue}}></k-title><k-short-content short-content={{shortContentValue}}></k-short-content><k-category category={{categoryValue}} categories=[[categoryList]]></k-category><k-image-upload image={{imageValue}} image-upload-url=[[headerUploadUrl]] method=[[uploadMethod]] thumbnail={{thumbnailImage}} uploading={{uploadingValue}}></k-image-upload><iron-image src$=[[thumbnailImage]] preload fade></iron-image><k-editor content={{contentValue}}></k-editor><k-publishing title=[[titleValue]] short-content=[[shortContentValue]] content=[[contentValue]] category=[[categoryValue]] post-url=[[postUrl]] image=[[imageValue]] disabled=[[uploadingValue]]></k-publishing></template></div><div class=preview><div><h2>[[titleValue]]</h2></div><div><h4><em>[[shortContentValue]]</em></h4></div><template is=juicy-html content$=[[contentValue]]></template><div><b>[Category: [[categoryValue]] ]</b></div></div></iron-pages></template><script>
    Polymer({
       is: 'k-new-post',
       properties: {
@@ -24693,6 +24696,7 @@ if (!window.Promise) {
         headerUploadUrl: String,
         uploadMethod: String,
         postUrl: String,
+        redirectUrl: String,
         selected: {
          type: Number,
          value: 0
