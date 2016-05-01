@@ -25060,7 +25060,7 @@ if (!window.Promise) {
         background: #2a9af2;
         color: white;
       }
-    </style><paper-button disabled=[[disabled]] on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="{{computeBody(title, shortContent, content, category, image)}}" method=GET on-response=ajaxResponse></iron-ajax></template><script>
+    </style><paper-button disabled=[[disabled]] on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="{{computeBody(title, shortContent, content, category, image)}}" method=POST on-response=ajaxResponse></iron-ajax></template><script>
    Polymer({
       is: 'k-publishing',
       properties: {
