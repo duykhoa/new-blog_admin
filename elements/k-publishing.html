@@ -19,7 +19,7 @@
     <iron-ajax
      url="[[postUrl]]"
      content-type="application/json"
-     body="[[computeBody(title, shortContent, content, category, image)]]"
+     body="{{computeBody(title, shortContent, content, category, image)}}"
      method="POST"
      on-response="ajaxResponse"
     ></iron-ajax>
@@ -29,12 +29,27 @@
    Polymer({
       is: 'k-publishing',
       properties: {
-        title: String,
-        shortContent: String,
-        content: String,
-        category: String,
+        title: {
+          type: String,
+          value: 'A Post'
+        },
+        shortContent:{
+          type: String,
+          value: 'ShortContent'
+        },
+        content: {
+          type: String,
+          value: 'Content'
+        },
+        category: {
+          type: String,
+          value: 'Category1'
+        },
         postUrl: String,
-        image: String,
+        image: {
+          type: String,
+          value: 'http://cat.com'
+        },
         disabled: {
           type: String,
           notify: true
