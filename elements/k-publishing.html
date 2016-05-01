@@ -20,15 +20,17 @@
      url="[[postUrl]]"
      content-type="application/json"
      body="{{computeBody(title, shortContent, content, category, image)}}"
-     method="POST"
+     method="GET"
      on-response="ajaxResponse"
     ></iron-ajax>
+
   </template>
 
   <script>
    Polymer({
       is: 'k-publishing',
       properties: {
+        redirectUrl: String,
         title: {
           type: String,
           value: 'A Post'
@@ -62,7 +64,9 @@
         this.$$('iron-ajax').generateRequest();
       },
       ajaxResponse: function(e) {
-        this.fire('iron-signal', { name: 'finishpublishing', data: null })
+        debugger
+        this.fire('iron-signal', { name: 'finishpublishing', data: null });
+        document.location = this.redirectUrl;
       }
     });
   </script>
