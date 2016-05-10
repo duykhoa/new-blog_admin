@@ -1,5 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements/k-new-post.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animation.html">
 
 <dom-module id="k-post">
   <template>
@@ -12,6 +14,10 @@
       paper-card {
         width: 100%;
         margin: 0;
+      }
+
+      actions {
+        display: inline-flex;
       }
 
       a {
@@ -29,23 +35,53 @@
       heading="[[post.title]]"
     >
       <div class="card-content">[[post.shortContent]]</div>
-      <a href="[[post.editUrl]]">
-        <paper-button on-tap="editAction">
-          <iron-icon icon="icons:create"></iron-icon>
-        </paper-button>
-      </a>
 
-      <a href="[[post.deleteUrl]]">
-        <paper-button on-tap="deleteAction">
-          <iron-icon icon="icons:delete"></iron-icon>
-        </paper-button>
-      </a>
+      <div class="actions">
+        <a href="[[post.editUrl]]">
+          <paper-button on-tap="editAction">
+            <iron-icon icon="icons:create"></iron-icon>
+          </paper-button>
+        </a>
 
-      <a href="[[post.viewUrl]]">
-        <paper-button on-tap="viewAction">
-          <iron-icon icon="icons:visibility"></iron-icon>
+        <!-- Delete Post -->
+        <paper-button
+          on-tap="dialogConfirm"
+          data-dialog="animated"
+        ><iron-icon icon="icons:delete">
+            <k-dialog
+              delete-url="[[post.deleteUrl]]"
+            ></k-dialog>
+          </iron-icon>
         </paper-button>
-      </a>
+
+        <!-- dialog confirm -->
+        <paper-dialog
+          id="animated"
+          entry-animation="scale-up-animation"
+          exit-animation="fade-out-animation"
+          with-backdrop
+        ><h2>Delete Post</h2>
+          <p>Are you sure?</p>
+
+          <div class="buttons">
+            <a href="[[post.deleteUrl]]">
+              <paper-button
+                on-tap="deleteAction"
+                dialog-confirm
+              >OK</paper-button>
+            </a>
+
+            <paper-button dialog-dismiss autofocus>Cancle</paper-button>
+          </div>
+        </paper-dialog>
+
+        <a href="[[post.viewUrl]]">
+          <paper-button on-tap="viewAction">
+            <iron-icon icon="icons:visibility"></iron-icon>
+          </paper-button>
+        </a>
+      </div>
+
     </paper-card>
   </template>
 
@@ -54,6 +90,20 @@
       is: 'k-post',
       properties: {
         post: Object
+      },
+      dialogConfirm: function(e) {
+        var btn = e.target;
+        while (!btn.hasAttribute('data-dialog') && btn !== document.body) {
+          btn = btn.parentElement;
+        }
+        if (!btn.hasAttribute('data-dialog')) {
+          return;
+        }
+        var id = btn.getAttribute('data-dialog');
+        var dialog = document.getElementById(id);
+        if (dialog) {
+          dialog.open();
+        }
       }
     });
   </script>
