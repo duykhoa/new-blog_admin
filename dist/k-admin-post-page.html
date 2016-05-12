@@ -17059,245 +17059,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
         }
       }
     });
-  </script></dom-module><dom-module id=iron-localstorage assetpath="../bower_components/iron-localstorage/"></dom-module><script>
-
-  Polymer({
-    is: 'iron-localstorage',
-
-    properties: {
-      /**
-       * localStorage item key
-       */
-      name: {
-        type: String,
-        value: ''
-      },
-      /**
-       * The data associated with this storage.
-       * If set to null item will be deleted.
-       * @type {*}
-       */
-      value: {
-        type: Object,
-        notify: true
-      },
-
-      /**
-       * If true: do not convert value to JSON on save/load
-       */
-      useRaw: {
-        type: Boolean,
-        value: false
-      },
-
-      /**
-       * Value will not be saved automatically if true. You'll have to do it manually with `save()`
-       */
-      autoSaveDisabled: {
-        type: Boolean,
-        value: false
-      },
-      /**
-       * Last error encountered while saving/loading items
-       */
-      errorMessage: {
-        type: String,
-        notify: true
-      },
-
-      /** True if value has been loaded */
-      _loaded: {
-        type: Boolean,
-        value: false
-      }
-    },
-
-    observers: [
-      '_debounceReload(name,useRaw)',
-      '_trySaveValue(autoSaveDisabled)',
-      '_trySaveValue(value.*)'
-    ],
-
-    ready: function() {
-      this._boundHandleStorage = this._handleStorage.bind(this);
-    },
-
-    attached: function() {
-      window.addEventListener('storage', this._boundHandleStorage);
-    },
-
-    detached: function() {
-      window.removeEventListener('storage', this._boundHandleStorage);
-    },
-
-    _handleStorage: function(ev) {
-      if (ev.key == this.name) {
-        this._load(true);
-      }
-    },
-
-    _trySaveValue: function() {
-      if (this._doNotSave) {
-        return;
-      }
-      if (this._loaded && !this.autoSaveDisabled) {
-        this.debounce('save', this.save);
-      }
-    },
-
-    _debounceReload: function() {
-      this.debounce('reload', this.reload);
-    },
-
-    /**
-     * Loads the value again. Use if you modify
-     * localStorage using DOM calls, and want to
-     * keep this element in sync.
-     */
-    reload: function() {
-      this._loaded = false;
-      this._load();
-    },
-
-    /**
-     * loads value from local storage
-     * @param {boolean=} externalChange true if loading changes from a different window
-     */
-    _load: function(externalChange) {
-      var v = window.localStorage.getItem(this.name);
-
-      if (v === null) {
-        this._loaded = true;
-        this._doNotSave = true;  // guard for save watchers
-        this.value = null;
-        this._doNotSave = false;
-        this.fire('iron-localstorage-load-empty', { externalChange: externalChange});
-      } else {
-        if (!this.useRaw) {
-          try { // parse value as JSON
-            v = JSON.parse(v);
-          } catch(x) {
-            this.errorMessage = "Could not parse local storage value";
-            console.error("could not parse local storage value", v);
-            v = null;
-          }
-        }
-        this._loaded = true;
-        this._doNotSave = true;
-        this.value = v;
-        this._doNotSave = false;
-        this.fire('iron-localstorage-load', { externalChange: externalChange});
-      }
-    },
-
-    /**
-     * Saves the value to localStorage. Call to save if autoSaveDisabled is set.
-     * If `value` is null or undefined, deletes localStorage.
-     */
-    save: function() {
-      var v = this.useRaw ? this.value : JSON.stringify(this.value);
-      try {
-        if (this.value === null || this.value === undefined) {
-          window.localStorage.removeItem(this.name);
-        } else {
-          window.localStorage.setItem(this.name, /** @type {string} */ (v));
-        }
-      }
-      catch(ex) {
-        // Happens in Safari incognito mode,
-        this.errorMessage = ex.message;
-        console.error("localStorage could not be saved. Safari incoginito mode?", ex);
-      }
-    }
-
-    /**
-     * Fired when value loads from localStorage.
-     *
-     * @event iron-localstorage-load
-     * @param {{externalChange:boolean}} detail -
-     *     externalChange: true if change occured in different window.
-     */
-
-    /**
-     * Fired when loaded value does not exist.
-     * Event handler can be used to initialize default value.
-     *
-     * @event iron-localstorage-load-empty
-     * @param {{externalChange:boolean}} detail -
-     *     externalChange: true if change occured in different window.
-     */
-  });
-
-</script><script>
-(function(){
-/**
-`iron-signals` provides basic publish-subscribe functionality.
-
-Note: avoid using `iron-signals` whenever you can use
-a controller (parent element) to mediate communication
-instead.
-
-To send a signal, fire a custom event of type `iron-signal`, with
-a detail object containing `name` and `data` fields.
-
-    this.fire('iron-signal', {name: 'hello', data: null});
-
-To receive a signal, listen for `iron-signal-<name>` event on a
-`iron-signals` element.
-
-  <iron-signals on-iron-signal-hello="{{helloSignal}}">
-
-You can fire a signal event from anywhere, and all
-`iron-signals` elements will receive the event, regardless
-of where they are in DOM.
-
-@demo demo/index.html
-*/
-  Polymer({
-    is: 'iron-signals',
-
-    attached: function() {
-      signals.push(this);
-    },
-    detached: function() {
-      var i = signals.indexOf(this);
-      if (i >= 0) {
-        signals.splice(i, 1);
-      }
-    }
-  });
-
-  // private shared database
-  var signals = [];
-
-  // signal dispatcher
-  function notify(name, data) {
-    // convert generic-signal event to named-signal event
-    var signal = new CustomEvent('iron-signal-' + name, {
-      // if signals bubble, it's easy to get confusing duplicates
-      // (1) listen on a container on behalf of local child
-      // (2) some deep child ignores the event and it bubbles
-      //     up to said container
-      // (3) local child event bubbles up to container
-      // also, for performance, we avoid signals flying up the
-      // tree from all over the place
-      bubbles: false,
-      detail: data
-    });
-    // dispatch named-signal to all 'signals' instances,
-    // only interested listeners will react
-    signals.forEach(function(s) {
-      s.dispatchEvent(signal);
-    });
-  }
-
-  // signal listener at document
-  document.addEventListener('iron-signal', function(e) {
-    notify(e.detail.name, e.detail.data);
-  });
-
-})();
-</script><script>
+  </script></dom-module><script>
   /** @polymerBehavior Polymer.PaperItemBehavior */
   Polymer.PaperItemBehaviorImpl = {
     hostAttributes: {
@@ -23970,7 +23732,7 @@ value. `setMax` should move the slider to the maximum value.
       }
     });
   </script></dom-module><dom-module id=k-editor assetpath="/"><template><style>
-    </style><iron-localstorage name=postContentValue value={{content}}></iron-localstorage><iron-signals on-iron-signal-finishpublishing=clearLocalStorage></iron-signals><k-wysiwyg content-value={{content}}></k-wysiwyg></template><script>
+    </style><k-wysiwyg content-value={{content}}></k-wysiwyg></template><script>
    Polymer({
       is: "k-editor",
       properties: {
@@ -23979,9 +23741,6 @@ value. `setMax` should move the slider to the maximum value.
           value: '',
           notify: true
         }
-      },
-      clearLocalStorage: function(e) {
-        this.$$('iron-localstorage').value = '';
       }
     });
   </script></dom-module><dom-module id=paper-menu-shared-styles assetpath="../bower_components/paper-menu/"><template><style>
@@ -25060,7 +24819,7 @@ if (!window.Promise) {
         background: #2a9af2;
         color: white;
       }
-    </style><paper-button disabled=[[disabled]] on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="[[computeBody(title, shortContent, content, category, image)]]" method=POST on-response=ajaxResponse></iron-ajax></template><script>
+    </style><paper-button disabled=[[disabled]] on-click=publish>Publish</paper-button><iron-ajax url=[[postUrl]] content-type=application/json body="[[computeBody(title, shortContent, content, category, image)]]" method=POST></iron-ajax></template><script>
    Polymer({
       is: 'k-publishing',
       properties: {
@@ -25080,9 +24839,6 @@ if (!window.Promise) {
       },
       publish: function(e) {
         this.$$('iron-ajax').generateRequest();
-      },
-      ajaxResponse: function(e) {
-        this.fire('iron-signal', { name: 'finishpublishing', data: null })
       }
     });
   </script></dom-module><script>
@@ -25961,7 +25717,1131 @@ if (!window.Promise) {
        }
       }
     });
-  </script></dom-module><dom-module id=k-post assetpath="/"><template><style>
+  </script></dom-module><script>
+
+/**
+Use `Polymer.PaperDialogBehavior` and `paper-dialog-shared-styles.html` to implement a Material Design
+dialog.
+
+For example, if `<paper-dialog-impl>` implements this behavior:
+
+    <paper-dialog-impl>
+        <h2>Header</h2>
+        <div>Dialog body</div>
+        <div class="buttons">
+            <paper-button dialog-dismiss>Cancel</paper-button>
+            <paper-button dialog-confirm>Accept</paper-button>
+        </div>
+    </paper-dialog-impl>
+
+`paper-dialog-shared-styles.html` provide styles for a header, content area, and an action area for buttons.
+Use the `<h2>` tag for the header and the `buttons` class for the action area. You can use the
+`paper-dialog-scrollable` element (in its own repository) if you need a scrolling content area.
+
+Use the `dialog-dismiss` and `dialog-confirm` attributes on interactive controls to close the
+dialog. If the user dismisses the dialog with `dialog-confirm`, the `closingReason` will update
+to include `confirmed: true`.
+
+### Styling
+
+The following custom properties and mixins are available for styling.
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-dialog-background-color` | Dialog background color                     | `--primary-background-color`
+`--paper-dialog-color`            | Dialog foreground color                     | `--primary-text-color`
+`--paper-dialog`                  | Mixin applied to the dialog                 | `{}`
+`--paper-dialog-title`            | Mixin applied to the title (`<h2>`) element | `{}`
+`--paper-dialog-button-color`     | Button area foreground color                | `--default-primary-color`
+
+### Accessibility
+
+This element has `role="dialog"` by default. Depending on the context, it may be more appropriate
+to override this attribute with `role="alertdialog"`.
+
+If `modal` is set, the element will set `aria-modal` and prevent the focus from exiting the element.
+It will also ensure that focus remains in the dialog.
+
+The `aria-labelledby` attribute will be set to the header element, if one exists.
+
+@hero hero.svg
+@demo demo/index.html
+@polymerBehavior Polymer.PaperDialogBehavior
+*/
+
+  Polymer.PaperDialogBehaviorImpl = {
+
+    hostAttributes: {
+      'role': 'dialog',
+      'tabindex': '-1'
+    },
+
+    properties: {
+
+      /**
+       * If `modal` is true, this implies `no-cancel-on-outside-click`, `no-cancel-on-esc-key` and `with-backdrop`.
+       */
+      modal: {
+        type: Boolean,
+        value: false
+      }
+
+    },
+
+    observers: [
+      '_modalChanged(modal, _readied)'
+    ],
+
+    listeners: {
+      'tap': '_onDialogClick'
+    },
+
+    ready: function () {
+      // Only now these properties can be read.
+      this.__prevNoCancelOnOutsideClick = this.noCancelOnOutsideClick;
+      this.__prevNoCancelOnEscKey = this.noCancelOnEscKey;
+      this.__prevWithBackdrop = this.withBackdrop;
+    },
+
+    attached: function() {
+      // this._observer is used by iron-overlay-behavior
+      this._ariaObserver = Polymer.dom(this).observeNodes(this._updateAriaLabelledBy);
+      this._updateAriaLabelledBy();
+    },
+
+    detached: function() {
+      Polymer.dom(this).unobserveNodes(this._ariaObserver);
+    },
+
+    _modalChanged: function(modal, readied) {
+      if (modal) {
+        this.setAttribute('aria-modal', 'true');
+      } else {
+        this.setAttribute('aria-modal', 'false');
+      }
+
+      // modal implies noCancelOnOutsideClick, noCancelOnEscKey and withBackdrop.
+      // We need to wait for the element to be ready before we can read the
+      // properties values.
+      if (!readied) {
+        return;
+      }
+
+      if (modal) {
+        this.__prevNoCancelOnOutsideClick = this.noCancelOnOutsideClick;
+        this.__prevNoCancelOnEscKey = this.noCancelOnEscKey;
+        this.__prevWithBackdrop = this.withBackdrop;
+        this.noCancelOnOutsideClick = true;
+        this.noCancelOnEscKey = true;
+        this.withBackdrop = true;
+      } else {
+        // If the value was changed to false, let it false.
+        this.noCancelOnOutsideClick = this.noCancelOnOutsideClick &&
+          this.__prevNoCancelOnOutsideClick;
+        this.noCancelOnEscKey = this.noCancelOnEscKey &&
+          this.__prevNoCancelOnEscKey;
+        this.withBackdrop = this.withBackdrop && this.__prevWithBackdrop;
+      }
+    },
+
+    _updateAriaLabelledBy: function() {
+      var header = Polymer.dom(this).querySelector('h2');
+      if (!header) {
+        this.removeAttribute('aria-labelledby');
+        return;
+      }
+      var headerId = header.getAttribute('id');
+      if (headerId && this.getAttribute('aria-labelledby') === headerId) {
+        return;
+      }
+      // set aria-describedBy to the header element
+      var labelledById;
+      if (headerId) {
+        labelledById = headerId;
+      } else {
+        labelledById = 'paper-dialog-header-' + new Date().getUTCMilliseconds();
+        header.setAttribute('id', labelledById);
+      }
+      this.setAttribute('aria-labelledby', labelledById);
+    },
+
+    _updateClosingReasonConfirmed: function(confirmed) {
+      this.closingReason = this.closingReason || {};
+      this.closingReason.confirmed = confirmed;
+    },
+
+    /**
+     * Will dismiss the dialog if user clicked on an element with dialog-dismiss
+     * or dialog-confirm attribute.
+     */
+    _onDialogClick: function(event) {
+      // Search for the element with dialog-confirm or dialog-dismiss,
+      // from the root target until this (excluded).
+      var path = Polymer.dom(event).path;
+      for (var i = 0; i < path.indexOf(this); i++) {
+        var target = path[i];
+        if (target.hasAttribute && (target.hasAttribute('dialog-dismiss') || target.hasAttribute('dialog-confirm'))) {
+          this._updateClosingReasonConfirmed(target.hasAttribute('dialog-confirm'));
+          this.close();
+          event.stopPropagation();
+          break;
+        }
+      }
+    }
+
+  };
+
+  /** @polymerBehavior */
+  Polymer.PaperDialogBehavior = [Polymer.IronOverlayBehavior, Polymer.PaperDialogBehaviorImpl];
+
+</script><dom-module id=paper-dialog-shared-styles assetpath="../bower_components/paper-dialog-behavior/"><template><style>
+      :host {
+        display: block;
+        margin: 24px 40px;
+        -webkit-overflow-scrolling: touch;
+
+        background: var(--paper-dialog-background-color, --primary-background-color);
+        color: var(--paper-dialog-color, --primary-text-color);
+
+        @apply(--paper-font-body1);
+        @apply(--shadow-elevation-16dp);
+        @apply(--paper-dialog);
+      }
+
+      :host > ::content > * {
+        margin-top: 20px;
+        padding: 0 24px;
+      }
+
+      :host > ::content > .no-padding {
+        padding: 0;
+      }
+
+      :host > ::content > *:first-child {
+        margin-top: 24px;
+      }
+
+      :host > ::content > *:last-child {
+        margin-bottom: 24px;
+      }
+
+      :host > ::content h2 {
+        position: relative;
+        margin: 0;
+        @apply(--paper-font-title);
+
+        @apply(--paper-dialog-title);
+      }
+
+      :host > ::content .buttons {
+        position: relative;
+        padding: 8px 8px 8px 24px;
+        margin: 0;
+
+        color: var(--paper-dialog-button-color, --primary-color);
+
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+    </style></template></dom-module><dom-module id=paper-dialog assetpath="../bower_components/paper-dialog/"><template><style include=paper-dialog-shared-styles></style><content></content></template></dom-module><script>
+
+(function() {
+
+  Polymer({
+
+    is: 'paper-dialog',
+
+    behaviors: [
+      Polymer.PaperDialogBehavior,
+      Polymer.NeonAnimationRunnerBehavior
+    ],
+
+    listeners: {
+      'neon-animation-finish': '_onNeonAnimationFinish'
+    },
+
+    _renderOpened: function() {
+      this.cancelAnimation();
+      if (this.withBackdrop) {
+        this.backdropElement.open();
+      }
+      this.playAnimation('entry');
+    },
+
+    _renderClosed: function() {
+      this.cancelAnimation();
+      if (this.withBackdrop) {
+        this.backdropElement.close();
+      }
+      this.playAnimation('exit');
+    },
+
+    _onNeonAnimationFinish: function() {
+      if (this.opened) {
+        this._finishRenderOpened();
+      } else {
+        this._finishRenderClosed();
+      }
+    }
+
+  });
+
+})();
+
+</script><dom-module id=neon-animated-pages assetpath="../bower_components/neon-animation/"><style>
+
+    :host {
+      display: block;
+      position: relative;
+    }
+
+    :host > ::content > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 100%;
+    }
+
+    :host > ::content > :not(.iron-selected):not(.neon-animating) {
+      display: none !important;
+    }
+
+    :host > ::content > .neon-animating {
+      pointer-events: none;
+    }
+
+  </style><template><content id=content></content></template></dom-module><script>
+(function() {
+
+  Polymer({
+
+    is: 'neon-animated-pages',
+
+    behaviors: [
+      Polymer.IronResizableBehavior,
+      Polymer.IronSelectableBehavior,
+      Polymer.NeonAnimationRunnerBehavior
+    ],
+
+    properties: {
+
+      activateEvent: {
+        type: String,
+        value: ''
+      },
+
+      // if true, the initial page selection will also be animated according to its animation config.
+      animateInitialSelection: {
+        type: Boolean,
+        value: false
+      }
+
+    },
+
+    observers: [
+      '_selectedChanged(selected)'
+    ],
+
+    listeners: {
+      'neon-animation-finish': '_onNeonAnimationFinish'
+    },
+
+    _selectedChanged: function(selected) {
+
+      var selectedPage = this.selectedItem;
+      var oldPage = this._valueToItem(this._prevSelected) || false;
+      this._prevSelected = selected;
+
+      // on initial load and if animateInitialSelection is negated, simply display selectedPage.
+      if (!oldPage && !this.animateInitialSelection) {
+        this._completeSelectedChanged();
+        return;
+      }
+
+      // insert safari fix.
+      this.animationConfig = [{
+        name: 'opaque-animation',
+        node: selectedPage
+      }];
+
+      // configure selectedPage animations.
+      if (this.entryAnimation) {
+        this.animationConfig.push({
+          name: this.entryAnimation,
+          node: selectedPage
+        });
+      } else {
+        if (selectedPage.getAnimationConfig) {
+          this.animationConfig.push({
+            animatable: selectedPage,
+            type: 'entry'
+          });
+        }
+      }
+
+      // configure oldPage animations iff exists.
+      if (oldPage) {
+
+        // cancel the currently running animation if one is ongoing.
+        if (oldPage.classList.contains('neon-animating')) {
+          this._squelchNextFinishEvent = true;
+          this.cancelAnimation();
+          this._completeSelectedChanged();
+          this._squelchNextFinishEvent = false;
+        }
+
+        // configure the animation.
+        if (this.exitAnimation) {
+          this.animationConfig.push({
+            name: this.exitAnimation,
+            node: oldPage
+          });
+        } else {
+          if (oldPage.getAnimationConfig) {
+            this.animationConfig.push({
+              animatable: oldPage,
+              type: 'exit'
+            });
+          }
+        }
+
+        // display the oldPage during the transition.
+        oldPage.classList.add('neon-animating');
+      }
+
+      // display the selectedPage during the transition.
+      selectedPage.classList.add('neon-animating');
+
+      // actually run the animations.
+      if (this.animationConfig.length > 1) {
+
+        // on first load, ensure we run animations only after element is attached.
+        if (!this.isAttached) {
+          this.async(function () {
+            this.playAnimation(undefined, {
+              fromPage: null,
+              toPage: selectedPage
+            });
+          });
+
+        } else {
+          this.playAnimation(undefined, {
+            fromPage: oldPage,
+            toPage: selectedPage
+          });
+        }
+
+      } else {
+        this._completeSelectedChanged(oldPage, selectedPage);
+      }
+    },
+
+    /**
+     * @param {Object=} oldPage
+     * @param {Object=} selectedPage
+     */
+    _completeSelectedChanged: function(oldPage, selectedPage) {
+      if (selectedPage) {
+        selectedPage.classList.remove('neon-animating');
+      }
+      if (oldPage) {
+        oldPage.classList.remove('neon-animating');
+      }
+      if (!selectedPage || !oldPage) {
+        var nodes = Polymer.dom(this.$.content).getDistributedNodes();
+        for (var node, index = 0; node = nodes[index]; index++) {
+          node.classList && node.classList.remove('neon-animating');
+        }
+      }
+      this.async(this._notifyPageResize);
+    },
+
+    _onNeonAnimationFinish: function(event) {
+      if (this._squelchNextFinishEvent) {
+        this._squelchNextFinishEvent = false;
+        return;
+      }
+      this._completeSelectedChanged(event.detail.fromPage, event.detail.toPage);
+    },
+
+    _notifyPageResize: function() {
+      var selectedPage = this.selectedItem || this._valueToItem(this.selected);
+      this.resizerShouldNotify = function(element) {
+        return element == selectedPage;
+      }
+      this.notifyResize();
+    }
+
+  })
+
+})();
+</script><dom-module id=neon-animatable assetpath="../bower_components/neon-animation/"><style>
+
+    :host {
+      display: block;
+    }
+
+  </style><template><content></content></template></dom-module><script>
+
+  Polymer({
+
+    is: 'neon-animatable',
+
+    behaviors: [
+      Polymer.NeonAnimatableBehavior,
+      Polymer.IronResizableBehavior
+    ]
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'cascaded-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    properties: {
+
+      /** @type {!Polymer.IronMeta} */
+      _animationMeta: {
+        type: Object,
+        value: function() {
+          return new Polymer.IronMeta({type: 'animation'});
+        }
+      }
+
+    },
+
+    /**
+     * @param {{
+     *   animation: string,
+     *   nodes: !Array<!Element>,
+     *   nodeDelay: (number|undefined),
+     *   timing: (Object|undefined)
+     *  }} config
+     */
+    configure: function(config) {
+      var animationConstructor = /** @type {Function} */ (
+          this._animationMeta.byKey(config.animation));
+      if (!animationConstructor) {
+        console.warn(this.is + ':', 'constructor for', config.animation, 'not found!');
+        return;
+      }
+
+      this._animations = [];
+      var nodes = config.nodes;
+      var effects = [];
+      var nodeDelay = config.nodeDelay || 50;
+
+      config.timing = config.timing || {};
+      config.timing.delay = config.timing.delay || 0;
+
+      var oldDelay = config.timing.delay;
+      for (var node, index = 0; node = nodes[index]; index++) {
+        config.timing.delay += nodeDelay;
+        config.node = node;
+
+        var animation = new animationConstructor();
+        var effect = animation.configure(config);
+
+        this._animations.push(animation);
+        effects.push(effect);
+      }
+      config.timing.delay = oldDelay;
+
+      this._effect = new GroupEffect(effects);
+      return this._effect;
+    },
+
+    complete: function() {
+      for (var animation, index = 0; animation = this._animations[index]; index++) {
+        animation.complete(animation.config);
+      }
+    }
+
+  });
+
+</script><script>
+
+  /**
+   * Use `Polymer.NeonSharedElementAnimationBehavior` to implement shared element animations.
+   * @polymerBehavior Polymer.NeonSharedElementAnimationBehavior
+   */
+  Polymer.NeonSharedElementAnimationBehaviorImpl = {
+
+    properties: {
+
+      /**
+       * Cached copy of shared elements.
+       */
+      sharedElements: {
+        type: Object
+      }
+
+    },
+
+    /**
+     * Finds shared elements based on `config`.
+     */
+    findSharedElements: function(config) {
+      var fromPage = config.fromPage;
+      var toPage = config.toPage;
+      if (!fromPage || !toPage) {
+        console.warn(this.is + ':', !fromPage ? 'fromPage' : 'toPage', 'is undefined!');
+        return null;
+      };
+
+      if (!fromPage.sharedElements || !toPage.sharedElements) {
+        console.warn(this.is + ':', 'sharedElements are undefined for', !fromPage.sharedElements ? fromPage : toPage);
+        return null;
+      };
+
+      var from = fromPage.sharedElements[config.id]
+      var to = toPage.sharedElements[config.id];
+
+      if (!from || !to) {
+        console.warn(this.is + ':', 'sharedElement with id', config.id, 'not found in', !from ? fromPage : toPage);
+        return null;
+      }
+
+      this.sharedElements = {
+        from: from,
+        to: to
+      };
+      return this.sharedElements;
+    }
+
+  };
+
+  /** @polymerBehavior Polymer.NeonSharedElementAnimationBehavior */
+  Polymer.NeonSharedElementAnimationBehavior = [
+    Polymer.NeonAnimationBehavior,
+    Polymer.NeonSharedElementAnimationBehaviorImpl
+  ];
+
+</script><script>
+
+  Polymer({
+
+    is: 'hero-animation',
+
+    behaviors: [
+      Polymer.NeonSharedElementAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var shared = this.findSharedElements(config);
+      if (!shared) {
+        return;
+      }
+
+      var fromRect = shared.from.getBoundingClientRect();
+      var toRect = shared.to.getBoundingClientRect();
+
+      var deltaLeft = fromRect.left - toRect.left;
+      var deltaTop = fromRect.top - toRect.top;
+      var deltaWidth = fromRect.width / toRect.width;
+      var deltaHeight = fromRect.height / toRect.height;
+
+      this.setPrefixedProperty(shared.to, 'transformOrigin', '0 0');
+      shared.to.style.zIndex = 10000;
+      shared.from.style.visibility = 'hidden';
+
+      this._effect = new KeyframeEffect(shared.to, [
+        {'transform': 'translate(' + deltaLeft + 'px,' + deltaTop + 'px) scale(' + deltaWidth + ',' + deltaHeight + ')'},
+        {'transform': 'none'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    },
+
+    complete: function(config) {
+      var shared = this.findSharedElements(config);
+      if (!shared) {
+        return null;
+      }
+      shared.to.style.zIndex = '';
+      shared.from.style.visibility = '';
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'ripple-animation',
+
+    behaviors: [
+      Polymer.NeonSharedElementAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var shared = this.findSharedElements(config);
+      if (!shared) {
+        return null;
+      }
+
+      var translateX, translateY;
+      var toRect = shared.to.getBoundingClientRect();
+      if (config.gesture) {
+        translateX = config.gesture.x - (toRect.left + (toRect.width / 2));
+        translateY = config.gesture.y - (toRect.top + (toRect.height / 2));
+      } else {
+        var fromRect = shared.from.getBoundingClientRect();
+        translateX = (fromRect.left + (fromRect.width / 2)) - (toRect.left + (toRect.width / 2));
+        translateY = (fromRect.top + (fromRect.height / 2)) - (toRect.top + (toRect.height / 2));
+      }
+      var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
+
+      var size = Math.max(toRect.width + Math.abs(translateX) * 2, toRect.height + Math.abs(translateY) * 2);
+      var diameter = Math.sqrt(2 * size * size);
+      var scaleX = diameter / toRect.width;
+      var scaleY = diameter / toRect.height;
+      var scale = 'scale(' + scaleX + ',' + scaleY + ')';
+
+      this.setPrefixedProperty(shared.to, 'transformOrigin', '50% 50%');
+      shared.to.style.borderRadius = '50%';
+
+      this._effect = new KeyframeEffect(shared.to, [
+        {'transform': translate + ' scale(0)'},
+        {'transform': translate + ' ' + scale}
+      ], this.timingFromConfig(config));
+      return this._effect;
+    },
+
+    complete: function() {
+      if (this.sharedElements) {
+        this.setPrefixedProperty(this.sharedElements.to, 'transformOrigin', '');
+        this.sharedElements.to.style.borderRadius = '';
+      }
+    }
+
+  });
+
+</script><script>
+  Polymer({
+    is: 'reverse-ripple-animation',
+
+    behaviors: [
+      Polymer.NeonSharedElementAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var shared = this.findSharedElements(config);
+      if (!shared) {
+        return null;
+      }
+
+      var translateX, translateY;
+      var fromRect = shared.from.getBoundingClientRect();
+      if (config.gesture) {
+        translateX = config.gesture.x - (fromRect.left + (fromRect.width / 2));
+        translateY = config.gesture.y - (fromRect.top + (fromRect.height / 2));
+      } else {
+        var toRect = shared.to.getBoundingClientRect();
+        translateX = (toRect.left + (toRect.width / 2)) - (fromRect.left + (fromRect.width / 2));
+        translateY = (toRect.top + (toRect.height / 2)) - (fromRect.top + (fromRect.height / 2));
+      }
+      var translate = 'translate(' + translateX + 'px,' + translateY + 'px)';
+
+      var size = Math.max(fromRect.width + Math.abs(translateX) * 2, fromRect.height + Math.abs(translateY) * 2);
+      var diameter = Math.sqrt(2 * size * size);
+      var scaleX = diameter / fromRect.width;
+      var scaleY = diameter / fromRect.height;
+      var scale = 'scale(' + scaleX + ',' + scaleY + ')';
+
+      this.setPrefixedProperty(shared.from, 'transformOrigin', '50% 50%');
+      shared.from.style.borderRadius = '50%';
+
+      this._effect = new KeyframeEffect(shared.from, [
+        {'transform': translate + ' ' + scale},
+        {'transform': translate + ' scale(0)'}
+      ], this.timingFromConfig(config));
+      return this._effect;
+    },
+
+    complete: function() {
+      if (this.sharedElements) {
+        this.setPrefixedProperty(this.sharedElements.from, 'transformOrigin', '');
+        this.sharedElements.from.style.borderRadius = '';
+      }
+    }
+  });
+</script><script>
+
+  Polymer({
+
+    is: 'scale-down-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      }
+
+      var scaleProperty = 'scale(0, 0)';
+      if (config.axis === 'x') {
+        scaleProperty = 'scale(0, 1)';
+      } else if (config.axis === 'y') {
+        scaleProperty = 'scale(1, 0)';
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'scale(1,1)'},
+        {'transform': scaleProperty}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'scale-up-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      }
+
+      var scaleProperty = 'scale(0)';
+      if (config.axis === 'x') {
+        scaleProperty = 'scale(0, 1)';
+      } else if (config.axis === 'y') {
+        scaleProperty = 'scale(1, 0)';
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': scaleProperty},
+        {'transform': 'scale(1, 1)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-from-left-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateX(-100%)'},
+        {'transform': 'none'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-from-right-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateX(100%)'},
+        {'transform': 'none'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-from-top-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateY(-100%)'},
+        {'transform': 'translateY(0%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-from-bottom-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateY(100%)'},
+        {'transform': 'translateY(0)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-left-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'none'},
+        {'transform': 'translateX(-100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-right-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '0 50%');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'none'},
+        {'transform': 'translateX(100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-up-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translate(0)'},
+        {'transform': 'translateY(-100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'slide-down-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    configure: function(config) {
+      var node = config.node;
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      } else {
+        this.setPrefixedProperty(node, 'transformOrigin', '50% 0');
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': 'translateY(0%)'},
+        {'transform': 'translateY(100%)'}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  Polymer({
+
+    is: 'transform-animation',
+
+    behaviors: [
+      Polymer.NeonAnimationBehavior
+    ],
+
+    /**
+     * @param {{
+     *   node: !Element,
+     *   transformOrigin: (string|undefined),
+     *   transformFrom: (string|undefined),
+     *   transformTo: (string|undefined),
+     *   timing: (Object|undefined)
+     * }} config
+     */
+    configure: function(config) {
+      var node = config.node;
+      var transformFrom = config.transformFrom || 'none';
+      var transformTo = config.transformTo || 'none';
+
+      if (config.transformOrigin) {
+        this.setPrefixedProperty(node, 'transformOrigin', config.transformOrigin);
+      }
+
+      this._effect = new KeyframeEffect(node, [
+        {'transform': transformFrom},
+        {'transform': transformTo}
+      ], this.timingFromConfig(config));
+
+      return this._effect;
+    }
+
+  });
+
+</script><script>
+
+  /**
+   * Use `Polymer.NeonSharedElementAnimatableBehavior` to implement elements containing shared element
+   * animations.
+   * @polymerBehavior Polymer.NeonSharedElementAnimatableBehavior
+   */
+  Polymer.NeonSharedElementAnimatableBehaviorImpl = {
+
+    properties: {
+
+      /**
+       * A map of shared element id to node.
+       */
+      sharedElements: {
+        type: Object,
+        value: {}
+      }
+
+    }
+
+  };
+
+  /** @polymerBehavior Polymer.NeonSharedElementAnimatableBehavior */
+  Polymer.NeonSharedElementAnimatableBehavior = [
+    Polymer.NeonAnimatableBehavior,
+    Polymer.NeonSharedElementAnimatableBehaviorImpl
+  ];
+
+</script><dom-module id=k-post assetpath="/"><template><style>
       :host {
         padding-top: 5px;
         display: block;
@@ -25970,6 +26850,10 @@ if (!window.Promise) {
       paper-card {
         width: 100%;
         margin: 0;
+      }
+
+      actions {
+        display: inline-flex;
       }
 
       a {
@@ -25981,11 +26865,24 @@ if (!window.Promise) {
         color: #000;
         text-decoration: none;
       }
-    </style><paper-card heading=[[post.title]]><div class=card-content>[[post.shortContent]]</div><a href=[[post.editUrl]]><paper-button on-tap=editAction><iron-icon icon=icons:create></iron-icon></paper-button></a> <a href=[[post.deleteUrl]]><paper-button on-tap=deleteAction><iron-icon icon=icons:delete></iron-icon></paper-button></a> <a href=[[post.viewUrl]]><paper-button on-tap=viewAction><iron-icon icon=icons:visibility></iron-icon></paper-button></a></paper-card></template><script>
+
+      paper-button[dialog-dismiss] {
+        color: #555;
+      }
+
+      paper-button[dialog-confirm] {
+        background: #2a9af2;
+        color: #fff;
+        font-weight: 500;
+      }
+    </style><paper-card heading=[[post.title]]><div class=card-content>[[post.shortContent]]</div><div class=actions><a href=[[post.editUrl]]><paper-button><iron-icon icon=icons:create></iron-icon></paper-button></a><paper-button on-tap=dialogConfirm data-dialog=animated><iron-icon icon=icons:delete><k-dialog delete-url=[[post.deleteUrl]]></k-dialog></iron-icon></paper-button><paper-dialog entry-animation=scale-up-animation exit-animation=fade-out-animation opened={{toggleDeleteDialog}} with-backdrop><h2>Delete Post</h2><p>Are you sure?</p><div class=buttons><a href=[[post.deleteUrl]]><paper-button on-tap=deleteAction dialog-confirm>OK</paper-button></a><paper-button dialog-dismiss>Cancel</paper-button></div></paper-dialog><a href=[[post.viewUrl]]><paper-button><iron-icon icon=icons:visibility></iron-icon></paper-button></a></div></paper-card></template><script>
    Polymer({
       is: 'k-post',
       properties: {
         post: Object
+      },
+      dialogConfirm: function(e) {
+        this.toggleDeleteDialog = !this.toggleDeleteDialog;
       }
     });
   </script></dom-module><dom-module id=k-post-list assetpath="/"><template><style>

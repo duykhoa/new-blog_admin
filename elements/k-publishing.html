@@ -21,7 +21,6 @@
      content-type="application/json"
      body="[[computeBody(title, shortContent, content, category, image)]]"
      method="POST"
-     on-response="ajaxResponse"
     ></iron-ajax>
   </template>
 
@@ -45,9 +44,6 @@
       },
       publish: function(e) {
         this.$$('iron-ajax').generateRequest();
-      },
-      ajaxResponse: function(e) {
-        this.fire('iron-signal', { name: 'finishpublishing', data: null })
       }
     });
   </script>
